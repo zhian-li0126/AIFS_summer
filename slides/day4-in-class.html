@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AIFS Summer Camp - Day 4 In-Class Material</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/monokai.min.css" />
+
+  <style>
+
+:root {
+  --aifs-green: #123524;
+  --aifs-green-2: #2f855a;
+  --aifs-mint: #e7f6ed;
+  --aifs-blue: #2563eb;
+  --aifs-orange: #f97316;
+  --aifs-red: #dc2626;
+  --aifs-purple: #7c3aed;
+  --ink: #1f2933;
+  --muted: #5f6f7a;
+}
+.reveal {
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  color: var(--ink);
+}
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  color: var(--aifs-green);
+  letter-spacing: -0.02em;
+}
+.reveal p, .reveal li {
+  line-height: 1.35;
+}
+.reveal ul, .reveal ol {
+  text-align: left;
+}
+.reveal pre {
+  width: 96%;
+  font-size: 0.58em;
+}
+.reveal code {
+  border-radius: 10px;
+}
+.back-link {
+  position: fixed;
+  top: 16px;
+  left: 20px;
+  z-index: 1000;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--aifs-green);
+  background: rgba(255,255,255,0.94);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.16);
+}
+.logo-strip {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.logo-strip img {
+  height: 46px;
+  max-width: 90px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.92);
+  border-radius: 12px;
+  padding: 4px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+.title-card {
+  text-align: center;
+}
+.title-pill {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--aifs-mint);
+  color: var(--aifs-green-2);
+  font-weight: 800;
+  margin-bottom: 16px;
+  font-size: 0.55em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.concept-box, .example-box, .activity-box, .warning-box, .formula-box {
+  border-radius: 18px;
+  padding: 22px;
+  margin: 18px 0;
+  text-align: left;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.concept-box {
+  background: #f4fbf7;
+  border-left: 8px solid var(--aifs-green-2);
+}
+.example-box {
+  background: #eff6ff;
+  border-left: 8px solid var(--aifs-blue);
+}
+.activity-box {
+  background: #fff7ed;
+  border-left: 8px solid var(--aifs-orange);
+}
+.warning-box {
+  background: #fef2f2;
+  border-left: 8px solid var(--aifs-red);
+}
+.formula-box {
+  background: #f5f3ff;
+  border-left: 8px solid var(--aifs-purple);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: stretch;
+}
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.06);
+}
+.card h4, .card h5 {
+  margin-top: 0;
+}
+.flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.flow-step {
+  background: #f8fafc;
+  border: 2px solid #dbe4ee;
+  border-radius: 16px;
+  padding: 14px;
+  min-width: 150px;
+  max-width: 210px;
+  text-align: center;
+}
+.arrow {
+  font-size: 1.5em;
+  color: var(--aifs-green-2);
+  font-weight: 900;
+}
+.camp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.55em;
+  margin-top: 16px;
+}
+.camp-table th {
+  background: var(--aifs-green);
+  color: white;
+}
+.camp-table th, .camp-table td {
+  border: 1px solid #cbd5e1;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.math {
+  font-family: "Times New Roman", serif;
+  font-size: 1.15em;
+  text-align: center;
+}
+.big-emoji {
+  font-size: 2.2em;
+}
+.pixel-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(5, 42px);
+  grid-auto-rows: 42px;
+  border: 3px solid #111827;
+  margin: 16px;
+}
+.pixel-grid span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #9ca3af;
+  font-size: 0.45em;
+  font-weight: 700;
+}
+.red { background: rgb(255, 100, 100); }
+.green { background: rgb(110, 220, 130); }
+.blue { background: rgb(100, 150, 255); }
+.yellow { background: rgb(255, 220, 80); }
+.gray { background: #e5e7eb; }
+.dark { background: #6b7280; color: white; }
+.light { background: #f9fafb; }
+.sensor-chip {
+  display: inline-block;
+  background: #111827;
+  color: #38ef7d;
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-family: monospace;
+  box-shadow: inset 0 0 18px rgba(56,239,125,0.2);
+}
+.small {
+  font-size: 0.68em;
+}
+.center {
+  text-align: center;
+}
+@media (max-width: 900px) {
+  .two-col, .three-col {
+    grid-template-columns: 1fr;
+  }
+  .logo-strip img {
+    height: 34px;
+  }
+  .back-link {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <a class="back-link" href="../day.html?day=4">← Back to Day 4</a>
+
+  <div class="logo-strip">
+    <img src="../images/aifs-icon.png" alt="AIFS icon" />
+    <img src="../images/cee_lab-icon.png" alt="CEE Lab icon" />
+  </div>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <section class="title-card">
+        <div class="title-pill">AIFS Summer Camp · In-Class Material</div>
+        <h1>Day 4</h1>
+        <h3>Artificial Lighting and Imaging in the CEA</h3>
+        <p>PAR, PPFD, DLI, LUE, lighting control, and computer vision training</p>
+      </section>
+
+      <section class="">
+
+<h2>Today’s Roadmap</h2>
+<div class="concept-box">
+  <ul>
+    <li>Learn key plant-lighting concepts: PAR, PPFD, DLI, photoperiod, and LUE.</li>
+    <li>Understand artificial and natural lighting in CEA.</li>
+    <li>Connect lighting conditions to imaging quality.</li>
+    <li>Introduce image-training concepts for CEA applications.</li>
+  </ul>
+</div>
+
+</section>
+<section class="">
+
+<h2>Why Light Matters</h2>
+<div class="concept-box">
+  <p>Light is the energy source for photosynthesis. In CEA, light is both a biological input and an engineering variable.</p>
+</div>
+<div class="flow">
+  <div class="flow-step">Light photons</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Photosynthesis</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Sugars</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Growth</div>
+</div>
+
+</section>
+<section class="">
+
+<h2>PAR, PPFD, and DLI</h2>
+<table class="camp-table"><thead><tr><th>Term</th><th>Meaning</th><th>Simple interpretation</th></tr></thead><tbody><tr><td>PAR</td><td>Photosynthetically active radiation, roughly 400–700 nm</td><td>Light plants can use for photosynthesis</td></tr><tr><td>PPFD</td><td>Photosynthetic photon flux density</td><td>How many useful photons hit one square meter each second</td></tr><tr><td>DLI</td><td>Daily light integral</td><td>Total useful light received in one day</td></tr></tbody></table>
+</section>
+<section class="">
+
+<h2>PPFD Example</h2>
+<div class="formula-box">
+  <p class="math">PPFD = μmol photons m⁻² s⁻¹</p>
+</div>
+<div class="example-box">
+  <p>If two shelves have PPFD values of 150 and 300 μmol m⁻² s⁻¹, the second shelf receives twice as many photosynthetic photons per second.</p>
+</div>
+
+</section>
+<section class="">
+
+<h2>DLI Calculation</h2>
+<div class="formula-box">
+  <p class="math">DLI = PPFD × photoperiod × 3600 / 1,000,000</p>
+</div>
+<div class="example-box">
+  <p><strong>Example:</strong> PPFD = 250 μmol m⁻² s⁻¹ and photoperiod = 16 hours.</p>
+  <p>DLI = 250 × 16 × 3600 / 1,000,000 = 14.4 mol m⁻² day⁻¹.</p>
+</div>
+
+</section>
+<section class="">
+
+<h2>Photoperiod</h2>
+<div class="concept-box">
+  <p><strong>Photoperiod</strong> is how long lights are on each day.</p>
+  <p>Plants respond to both intensity and duration. A lower PPFD for longer time can sometimes provide a similar DLI as higher PPFD for shorter time.</p>
+</div>
+<div class="example-box">
+  <p>200 PPFD for 18 hours gives DLI = 13.0 mol m⁻² day⁻¹.</p>
+  <p>300 PPFD for 12 hours gives DLI = 13.0 mol m⁻² day⁻¹.</p>
+</div>
+
+</section>
+<section class="">
+
+<h2>Light Spectrum</h2>
+<div class="three-col">
+  <div class="card"><h4>Blue</h4><p>Often affects compact growth and leaf morphology.</p></div>
+  <div class="card"><h4>Red</h4><p>Efficient for photosynthesis and growth.</p></div>
+  <div class="card"><h4>Far-red / Green</h4><p>Affects canopy penetration and plant signals.</p></div>
+</div>
+<div class="warning-box">
+  <strong>Important:</strong> Plant responses depend on species, growth stage, intensity, and spectrum balance.
+</div>
+
+</section>
+<section class="">
+
+<h2>Light Use Efficiency</h2>
+<div class="formula-box">
+  <p class="math">LUE = Plant biomass gained / Light energy or photons supplied</p>
+</div>
+<div class="concept-box">
+  <p><strong>Light-use efficiency</strong> asks: how effectively did the plant convert supplied light into growth?</p>
+</div>
+
+</section>
+<section class="">
+
+<h2>Natural vs Artificial Lighting</h2>
+<table class="camp-table"><thead><tr><th>Source</th><th>Strength</th><th>Challenge</th></tr></thead><tbody><tr><td>Sunlight</td><td>Free and high intensity</td><td>Changes with weather, season, and time of day</td></tr><tr><td>LED lighting</td><td>Controllable intensity, spectrum, timing</td><td>Costs electricity and generates heat</td></tr><tr><td>Hybrid lighting</td><td>Can combine sunlight and LEDs</td><td>Requires smart control decisions</td></tr></tbody></table>
+</section>
+<section class="">
+
+<h2>Lighting Uniformity</h2>
+<div class="concept-box">
+  <p>Uniformity means plants across a growing area receive similar light.</p>
+</div>
+<div class="example-box">
+  <p>If one side of a tray receives 350 PPFD and the other receives 150 PPFD, plants may grow at different rates even if they are the same variety.</p>
+</div>
+
+</section>
+<section class="">
+
+<h2>Measuring Light</h2>
+<div class="flow">
+  <div class="flow-step">Choose grid points</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Measure PPFD</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Map spatial variation</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Adjust lights or plant layout</div>
+</div>
+<div class="activity-box">
+  <strong>Class question:</strong> Where would you measure light: above the canopy, inside the canopy, or at the tray surface?
+</div>
+
+</section>
+<section class="">
+
+<h2>Lighting and Imaging Are Connected</h2>
+<div class="concept-box">
+  <p>The same plant can look different under different lighting conditions.</p>
+</div>
+<div class="three-col">
+  <div class="card"><h4>Brightness</h4><p>Changes pixel intensity.</p></div>
+  <div class="card"><h4>Spectrum</h4><p>Changes color appearance.</p></div>
+  <div class="card"><h4>Shadows</h4><p>Change shape and texture features.</p></div>
+</div>
+
+</section>
+<section class="">
+
+<h2>Example: Why Imaging Needs Controlled Light</h2>
+<div class="example-box">
+  <p><strong>Scenario:</strong> A model learns that yellow leaves indicate stress.</p>
+  <p><strong>Problem:</strong> Under warm-colored lights, healthy leaves may appear more yellow.</p>
+  <p><strong>Solution:</strong> Standardize imaging light or include lighting variation in training data.</p>
+</div>
+
+</section>
+<section class="">
+
+<h2>Computer Vision Training Basics</h2>
+<div class="flow">
+  <div class="flow-step">Collect images</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Label images</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Split data</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Train model</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Evaluate</div>
+</div>
+
+</section>
+<section class="">
+
+<h2>Labels: What is the Correct Answer?</h2>
+<div class="concept-box">
+  <p>A label is the answer the model is supposed to learn.</p>
+</div>
+<table class="camp-table"><thead><tr><th>Task</th><th>Image label example</th><th>Model output</th></tr></thead><tbody><tr><td>Classification</td><td>Healthy / stressed</td><td>One class per image</td></tr><tr><td>Detection</td><td>Plant location box</td><td>Coordinates and class</td></tr><tr><td>Segmentation</td><td>Leaf pixels vs background</td><td>Mask image</td></tr></tbody></table>
+</section>
+<section class="">
+
+<h2>Train / Validation / Test Split</h2>
+<div class="three-col">
+  <div class="card"><h4>Training</h4><p>Used to learn model parameters.</p></div>
+  <div class="card"><h4>Validation</h4><p>Used to tune decisions during development.</p></div>
+  <div class="card"><h4>Testing</h4><p>Used once to estimate final performance.</p></div>
+</div>
+<div class="warning-box">
+  <strong>Rule:</strong> Do not test on the same images used for training.
+</div>
+
+</section>
+<section class="">
+
+<h2>Data Augmentation</h2>
+<div class="concept-box">
+  <p>Augmentation creates modified versions of images to make the model more robust.</p>
+</div>
+<div class="three-col">
+  <div class="card"><h4>Flip</h4><p>Left-right mirror.</p></div>
+  <div class="card"><h4>Rotate</h4><p>Slight angle changes.</p></div>
+  <div class="card"><h4>Brightness</h4><p>Simulate lighting changes.</p></div>
+</div>
+
+</section>
+<section class="">
+
+<h2>Example Dataset Plan</h2>
+<div class="example-box">
+  <p><strong>Goal:</strong> Train a model to detect plant stress.</p>
+  <ul>
+    <li>Collect images from multiple days.</li>
+    <li>Use consistent camera distance and angle.</li>
+    <li>Record lighting conditions.</li>
+    <li>Label each image as healthy, mild stress, or severe stress.</li>
+    <li>Keep a separate test set from plants or days not used in training.</li>
+  </ul>
+</div>
+
+</section>
+<section class="">
+
+<h2>Lighting Control + Vision Loop</h2>
+<div class="flow">
+  <div class="flow-step">Camera detects plant state</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Model estimates growth / stress</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Controller adjusts lighting</div>
+  <div class="arrow">→</div>
+  <div class="flow-step">Plant responds over time</div>
+</div>
+<div class="concept-box">
+  <p>This is a future direction for smart CEA: sensing, modeling, and control working together.</p>
+</div>
+
+</section>
+<section class="">
+
+<h2>Day 4 Key Takeaways</h2>
+<div class="concept-box">
+  <ul>
+    <li>PPFD measures instantaneous photosynthetic light; DLI measures daily total light.</li>
+    <li>Spectrum, intensity, duration, and uniformity all matter.</li>
+    <li>Lighting strongly affects image appearance and model reliability.</li>
+    <li>Good image-training workflows need consistent data, labels, splits, and evaluation.</li>
+  </ul>
+</div>
+
+</section>
+
+
+      <section>
+        <h2>Quick Exit Ticket</h2>
+        <div class="activity-box">
+          <ol>
+            <li>What is one concept you can explain to someone else?</li>
+            <li>What is one term you want to review?</li>
+            <li>What is one question you would ask during the discussion?</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+      slideNumber: "c/t",
+      transition: "slide",
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+  </script>
+</body>
+</html>
