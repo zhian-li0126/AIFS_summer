@@ -2,12 +2,9 @@ const dayData = {
   1: {
     title: "Controlled Environment Agriculture Discovery Day",
     intro: "Welcome to Day 1 of AIFS Summer Camp. Choose the learning resource you want to open.",
-    materialDescription:
-      "Introduction to controlled environment agriculture and hydroponic systems, including nutrient film technique, deep water culture, and flood-and-drain systems.",
     workshopDescription:
       "Interactive facility exploration where students observe plant growth systems, ask questions, and identify key components used in indoor farming.",
-    materialFile: "slides/day1-in-class.html",
-    workshopFile: "slides/day1-workshop.html"
+    workshopFile: "slides/day1-workshop/"
   },
 
   2: {
@@ -59,15 +56,31 @@ function setupDayPage() {
   document.getElementById("day-heading").textContent = `Day ${day}`;
   document.getElementById("day-title").textContent = data.title;
   document.getElementById("day-intro").textContent = data.intro;
-  document.getElementById("material-description").textContent = data.materialDescription;
-  document.getElementById("workshop-description").textContent = data.workshopDescription;
 
-  document.getElementById("material-link").href = data.materialFile;
-  document.getElementById("workshop-link").href = data.workshopFile;
+  const materialLink = document.getElementById("material-link");
+  const workshopLink = document.getElementById("workshop-link");
+  const materialDescriptionRow = document.getElementById("material-description-row");
+  const materialDescription = document.getElementById("material-description");
+  const workshopDescription = document.getElementById("workshop-description");
 
-  if (day === "1") {
-    document.getElementById("material-link").style.display = "none";
-    document.getElementById("material-description-row").style.display = "none";
+  workshopLink.href = data.workshopFile;
+  workshopDescription.textContent = data.workshopDescription;
+
+  if (String(day) === "1") {
+    materialLink.style.display = "none";
+
+    if (materialDescriptionRow) {
+      materialDescriptionRow.style.display = "none";
+    }
+  } else {
+    materialLink.style.display = "inline-flex";
+    materialLink.href = data.materialFile;
+
+    if (materialDescriptionRow) {
+      materialDescriptionRow.style.display = "list-item";
+    }
+
+    materialDescription.textContent = data.materialDescription;
   }
 }
 
