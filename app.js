@@ -64,6 +64,11 @@ function setupDayPage() {
 
   document.getElementById("material-link").href = data.materialFile;
   document.getElementById("workshop-link").href = data.workshopFile;
+
+  if (day === "1") {
+    document.getElementById("material-link").style.display = "none";
+    document.getElementById("material-description-row").style.display = "none";
+  }
 }
 
 function setupViewerPage() {
