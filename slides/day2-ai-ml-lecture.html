@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AIFS Summer Camp - Day 2 AI and Machine Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/monokai.min.css" />
+
+  <style>
+:root {
+  --aifs-green: #123524;
+  --aifs-green-2: #2f855a;
+  --aifs-mint: #e7f6ed;
+  --aifs-blue: #2563eb;
+  --aifs-orange: #f97316;
+  --aifs-red: #dc2626;
+  --aifs-purple: #7c3aed;
+  --aifs-cyan: #0891b2;
+  --ink: #1f2933;
+  --muted: #5f6f7a;
+}
+.reveal { font-family: "Segoe UI", Arial, Helvetica, sans-serif; color: var(--ink); }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 { color: var(--aifs-green); letter-spacing: -0.02em; }
+.reveal p, .reveal li { line-height: 1.32; }
+.reveal ul, .reveal ol { text-align: left; }
+.reveal pre { width: 96%; font-size: 0.45em; margin-top: 10px; }
+.reveal code { border-radius: 10px; }
+.back-link {
+  position: fixed; top: 16px; left: 20px; z-index: 1000;
+  font-family: "Segoe UI", Arial, sans-serif; font-size: 15px; font-weight: 800;
+  text-decoration: none; color: var(--aifs-green); background: rgba(255,255,255,0.94);
+  padding: 10px 16px; border-radius: 999px; box-shadow: 0 4px 14px rgba(0,0,0,0.16);
+}
+.logo-strip { position: fixed; top: 16px; right: 20px; z-index: 1000; display: flex; gap: 14px; align-items: center; }
+.logo-strip img { height: 46px; max-width: 90px; object-fit: contain; background: rgba(255,255,255,0.92); border-radius: 12px; padding: 4px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+.title-card { text-align: center; }
+.title-pill { display: inline-block; padding: 8px 16px; border-radius: 999px; background: var(--aifs-mint); color: var(--aifs-green-2); font-weight: 800; margin-bottom: 16px; font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; }
+.concept-box, .example-box, .activity-box, .warning-box, .formula-box { border-radius: 18px; padding: 20px; margin: 16px 0; text-align: left; box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+.concept-box { background: #f4fbf7; border-left: 8px solid var(--aifs-green-2); }
+.example-box { background: #eff6ff; border-left: 8px solid var(--aifs-blue); }
+.activity-box { background: #fff7ed; border-left: 8px solid var(--aifs-orange); }
+.warning-box { background: #fef2f2; border-left: 8px solid var(--aifs-red); }
+.formula-box { background: #f5f3ff; border-left: 8px solid var(--aifs-purple); font-family: "Segoe UI", Arial, sans-serif; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
+.two-col-wide { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 22px; align-items: center; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.card { background: white; border: 2px solid #e5e7eb; border-radius: 16px; padding: 18px; text-align: center; box-shadow: 0 5px 14px rgba(0,0,0,0.06); }
+.card h4, .card h5 { margin-top: 0; }
+.flow { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.flow-step { background: #f8fafc; border: 2px solid #dbe4ee; border-radius: 16px; padding: 14px; min-width: 145px; max-width: 220px; text-align: center; }
+.arrow { font-size: 1.5em; color: var(--aifs-green-2); font-weight: 900; }
+.big-emoji { font-size: 2.15em; }
+.medium-emoji { font-size: 1.75em; }
+.small { font-size: 0.68em; }
+.mini { font-size: 0.60em; line-height: 1.2; }
+.micro { font-size: 0.52em; line-height: 1.18; }
+.center { text-align: center; }
+.camp-table { width: 100%; border-collapse: collapse; font-size: 0.50em; margin-top: 14px; }
+.camp-table th { background: var(--aifs-green); color: white; }
+.camp-table th, .camp-table td { border: 1px solid #cbd5e1; padding: 9px; text-align: left; vertical-align: top; }
+.ai-tag { display: inline-block; border-radius: 999px; padding: 6px 12px; color: white; font-size: 0.50em; font-weight: 800; margin: 4px; }
+.tag-ai { background: var(--aifs-green-2); }
+.tag-ml { background: var(--aifs-blue); }
+.tag-dl { background: var(--aifs-purple); }
+.tag-gen { background: var(--aifs-orange); }
+.image-card { min-height: 230px; display: flex; align-items: center; justify-content: center; flex-direction: column; overflow: hidden; background: linear-gradient(135deg, #f8fafc, #eefcf3); }
+.image-card img { width: 100%; max-height: 260px; object-fit: cover; border-radius: 14px; }
+.placeholder { min-height: 210px; width: 100%; border-radius: 16px; background: linear-gradient(135deg, #e7f6ed, #eff6ff); border: 3px dashed #b7d7c4; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--muted); font-size: 0.58em; padding: 14px; }
+.venn-wrap { position: relative; width: 760px; height: 430px; margin: 0 auto; }
+.venn-circle { position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 800; color: #111827; box-shadow: 0 10px 24px rgba(0,0,0,0.12); border: 3px solid rgba(255,255,255,0.8); }
+.venn-ai { width: 410px; height: 410px; left: 20px; top: 0; background: rgba(47, 133, 90, 0.22); }
+.venn-ml { width: 300px; height: 300px; left: 115px; top: 65px; background: rgba(37, 99, 235, 0.22); }
+.venn-dl { width: 205px; height: 205px; left: 192px; top: 112px; background: rgba(124, 58, 237, 0.22); }
+.venn-gen { width: 235px; height: 235px; left: 465px; top: 90px; background: rgba(249, 115, 22, 0.24); }
+.venn-label { font-size: 0.72em; }
+.venn-note { position: absolute; font-size: 0.48em; color: #334155; max-width: 160px; line-height: 1.15; }
+.note-ai { left: 38px; top: 332px; }
+.note-ml { left: 135px; top: 300px; }
+.note-dl { left: 220px; top: 230px; }
+.note-gen { left: 500px; top: 285px; }
+.pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: stretch; }
+.pipe-step { border-radius: 16px; background: #f8fafc; border: 2px solid #dbe4ee; padding: 14px 10px; text-align: center; font-size: 0.58em; font-weight: 700; }
+.tennis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: center; }
+.decision-node { background: #f8fafc; border: 2px solid #dbe4ee; border-radius: 16px; padding: 10px 12px; margin: 7px auto; width: 80%; font-size: 0.58em; text-align: center; }
+.codebox { font-size: 0.38em !important; }
+@media (max-width: 900px) { .two-col, .two-col-wide, .three-col, .four-col { grid-template-columns: 1fr; } .venn-wrap { transform: scale(0.75); transform-origin: top center; height: 330px; } .logo-strip img { height: 34px; } .back-link { font-size: 12px; padding: 8px 12px; } }
+  </style>
+</head>
+
+<body>
+  <a class="back-link" href="../day.html?day=2">← Back to Day 2</a>
+  <div class="logo-strip">
+    <img src="../images/aifs-icon.png" alt="AIFS icon" />
+    <img src="../images/cee_lab-icon.png" alt="CEE Lab icon" />
+  </div>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <section class="title-card">
+        <div class="title-pill">AIFS Summer Camp · Day 2 Lecture</div>
+        <h1>AI and Machine Learning Basics</h1>
+        <h3>How computers learn from data and help greenhouse systems make smarter decisions</h3>
+        <p>From playing tennis outside to monitoring plants indoors</p>
+      </section>
+
+      <section>
+        <h2>Today’s Big Questions</h2>
+        <div class="concept-box">
+          <ul>
+            <li>What is artificial intelligence?</li>
+            <li>What is machine learning, and how is it different from normal programming?</li>
+            <li>How does a computer learn from examples?</li>
+            <li>How can AI help sensors, cameras, and greenhouse control systems?</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>AI in One Sentence</h2>
+        <div class="concept-box">
+          <p><strong>Artificial intelligence (AI)</strong> means making computers perform tasks that seem to require human-like thinking.</p>
+        </div>
+        <div class="three-col">
+          <div class="card"><div class="big-emoji">👀</div><h4>See</h4><p class="mini">Recognize objects, faces, plants, or disease spots.</p></div>
+          <div class="card"><div class="big-emoji">🧠</div><h4>Decide</h4><p class="mini">Choose an action based on information.</p></div>
+          <div class="card"><div class="big-emoji">💬</div><h4>Communicate</h4><p class="mini">Understand text, speech, or images.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Metaphor: AI as a Helpful Assistant</h2>
+        <div class="two-col-wide">
+          <div class="example-box" style="font-size:0.58em; line-height:1.2;">
+            <p>Imagine a greenhouse assistant who never sleeps.</p>
+            <p>It watches sensor data, checks plant images, notices problems, and suggests actions.</p>
+            <p>AI is not magic. It is a tool that uses rules, data, or learned patterns.</p>
+          </div>
+          <div class="image-card card">
+            <img src="../images/ai_greenhouse_assistant.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="AI greenhouse assistant" />
+            <div class="placeholder" style="display:none;">Suggested image: a greenhouse worker looking at a tablet/dashboard near lettuce or tomatoes</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>What is Machine Learning?</h2>
+        <div class="concept-box">
+          <p><strong>Machine learning (ML)</strong> is a way for computers to learn patterns from data instead of only following hand-written instructions.</p>
+        </div>
+        <div class="formula-box center" style="font-size:0.58em; line-height:1.2;">
+          Data + Learning Algorithm → Model → Prediction or Decision
+        </div>
+        <div class="activity-box mini">
+          <strong>Simple idea:</strong> If you show a computer many examples, it can learn a pattern and use it on new examples.
+        </div>
+      </section>
+
+      <section>
+        <h2 style="font-size:1.2em; margin-bottom:8px;">
+          AI categories
+        </h2>
+
+        <div class="center">
+          <img
+            src="../images/examples-ai.jpg"
+            onerror="this.onerror=null;this.src='/images/examples-ai.jpg';"
+            alt="Examples of AI applications"
+            style="
+              width:88%;
+              max-height:500px;
+              object-fit:contain;
+              border-radius:18px;
+              box-shadow:0 8px 24px rgba(0,0,0,0.14);
+            "
+          />
+        </div>
+
+        <div
+          class="example-box"
+          style="
+            font-size:20px;
+            line-height:1.2;
+            padding:10px 16px;
+            margin:12px auto 0 auto;
+            width:82%;
+          "
+        >
+          <p>
+            <strong>AI</strong> is a broad field. Machine learning is one way to do AI. Deep learning is a type of machine learning. Generative AI is a type of deep learning.
+          </p>
+      </section>
+
+      <section>
+        <h2>Types of Machine Learning</h2>
+        <div class="three-col">
+          <div class="card"><span class="ai-tag tag-ml">Supervised</span><h4>Learn from answers</h4><p class="mini">Input data has labels. Example: plant image → healthy or stressed.</p></div>
+          <div class="card"><span class="ai-tag tag-purple tag-dl" style="background:var(--aifs-purple);">Unsupervised</span><h4>Find groups</h4><p class="mini">No labels. Example: group greenhouse zones by light and temperature.</p></div>
+          <div class="card"><span class="ai-tag tag-gen">Reinforcement</span><h4>Learn by reward</h4><p class="mini">Try actions and receive rewards. Example: choose lighting strategy that saves energy and grows plants.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>The ML Learning Pipeline</h2>
+        <div class="pipeline">
+          <div class="pipe-step">1. Collect data<br><span class="medium-emoji">📊</span></div>
+          <div class="pipe-step">2. Clean data<br><span class="medium-emoji">🧹</span></div>
+          <div class="pipe-step">3. Train model<br><span class="medium-emoji">🏋️</span></div>
+          <div class="pipe-step">4. Test model<br><span class="medium-emoji">🧪</span></div>
+          <div class="pipe-step">5. Use model<br><span class="medium-emoji">🚀</span></div>
+        </div>
+        <div class="concept-box mini">
+          In a greenhouse, data may come from DHT11 temperature/humidity sensors, PAR sensors, pH/EC sensors, ultrasonic water-level sensors, or cameras.
+        </div>
+      </section>
+
+      <section>
+        <h2>Vocabulary: Data, Feature, Label, Model</h2>
+        <table class="camp-table">
+          <thead><tr><th>Word</th><th>Meaning</th><th>Greenhouse example</th></tr></thead>
+          <tbody>
+            <tr><td>Data</td><td>Measurements or examples</td><td>Temperature, humidity, light, pH, plant images</td></tr>
+            <tr><td>Feature</td><td>A useful input column</td><td>Temperature = 27°C, PAR = 350 µmol/m²/s</td></tr>
+            <tr><td>Label</td><td>The answer we want the model to learn</td><td>Healthy/stressed, play tennis yes/no, water use amount</td></tr>
+            <tr><td>Model</td><td>The learned pattern</td><td>A rule, tree, equation, neural network, or classifier</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Classic Example: Should We Play Tennis Outside?</h2>
+        <div class="tennis-grid" style="font-size:0.58em; line-height:1.2;">
+          <div class="example-box">
+            <p><strong>Question:</strong> Based on weather, should we play tennis?</p>
+            <p><strong>Inputs:</strong> outlook, temperature, humidity, wind.</p>
+            <p><strong>Label:</strong> play tennis = yes or no.</p>
+          </div>
+          <div class="image-card card">
+            <img src="../images/tennis_weather.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Tennis court and weather" />
+            <div class="placeholder" style="display:none;">Suggested image: outdoor tennis court with sunny/cloudy weather</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Play Tennis Dataset</h2>
+        <table class="camp-table">
+          <thead><tr><th>Outlook</th><th>Temperature</th><th>Humidity</th><th>Wind</th><th>Play?</th></tr></thead>
+          <tbody>
+            <tr><td>Sunny</td><td>Hot</td><td>High</td><td>Weak</td><td>No</td></tr>
+            <tr><td>Overcast</td><td>Hot</td><td>High</td><td>Weak</td><td>Yes</td></tr>
+            <tr><td>Rain</td><td>Mild</td><td>High</td><td>Weak</td><td>Yes</td></tr>
+            <tr><td>Rain</td><td>Cool</td><td>Normal</td><td>Strong</td><td>No</td></tr>
+            <tr><td>Sunny</td><td>Cool</td><td>Normal</td><td>Weak</td><td>Yes</td></tr>
+          </tbody>
+        </table>
+        <div class="activity-box mini">The model looks for patterns: maybe overcast days are usually good; strong wind on rainy days may be bad.</div>
+      </section>
+
+      <section>
+        <h2>Decision Tree: A Model That Asks Questions</h2>
+        <div class="two-col">
+          <div>
+            <div class="decision-node">Is outlook overcast?</div>
+            <div class="decision-node">If yes → Play</div>
+            <div class="decision-node">If sunny → check humidity</div>
+            <div class="decision-node">If rain → check wind</div>
+          </div>
+          <div class="concept-box">
+            <p>A <strong>decision tree</strong> is like a flowchart.</p>
+            <p>It learns which questions are most useful from examples.</p>
+            <p>At the end, it gives a prediction.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Code Demo 1: Play Tennis Decision Tree</h2>
+        <pre class="codebox"><code class="language-python">import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+X = pd.DataFrame([
+    ["Sunny", "Hot", "High", "Weak"],
+    ["Overcast", "Hot", "High", "Weak"],
+    ["Rain", "Cool", "Normal", "Strong"]
+], columns=["Outlook", "Temp", "Humidity", "Wind"])
+y = ["No", "Yes", "No"]
+
+model = Pipeline([
+    ("encode", ColumnTransformer([("cat", OneHotEncoder(), X.columns)])),
+    ("tree", DecisionTreeClassifier(max_depth=3))
+])
+model.fit(X, y)
+print(model.predict(pd.DataFrame([["Sunny", "Cool", "High", "Strong"]], columns=X.columns)))</code></pre>
+      </section>
+
+      <section>
+        <h2>Popular Example: Spam Detection</h2>
+        <div class="two-col-wide">
+          <div class="image-card card">
+            <img src="../images/spam_email.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Spam email example" />
+            <div class="placeholder" style="display:none;">Suggested image: email inbox with spam/junk labels, no private information</div>
+          </div>
+          <div class="example-box" style="font-size:0.58em; line-height:1.2;">
+            <p><strong>Input:</strong> words in an email, sender, links, attachments.</p>
+            <p><strong>Label:</strong> spam or not spam.</p>
+            <p><strong>Model learns:</strong> patterns often seen in spam messages.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 style="font-size:1.25em; margin-bottom:8px;">Popular Example: Image Classification</h2>
+
+        <div
+          class="two-col-wide"
+          style="
+            display:grid;
+            grid-template-columns:0.65fr 1.35fr;
+            gap:18px;
+            align-items:center;
+            font-size:0.52em;
+            line-height:1.15;
+          "
+        >
+          <div class="concept-box" style="padding:14px 16px; margin:0;">
+            <p>In image classification, the computer learns from many labeled pictures.</p>
+            <p>For greenhouse use, the labels might be <strong>healthy</strong>, <strong>nutrient deficiency</strong>, or <strong>disease symptom</strong>.</p>
+          </div>
+
+          <div
+            class="image-card card"
+            style="
+              padding:8px;
+              margin:0;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+            "
+          >
+            <img
+              src="../images/image_classification.jpg"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              alt="Plant image classification"
+              style="
+                display:block;
+                width:100%;
+                max-width:760px;
+                max-height:560px;
+                object-fit:contain;
+                margin:0 auto;
+                border-radius:14px;
+              "
+            />
+            <div class="placeholder" style="display:none;">Image: Cat and Dog</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Popular Example: Recommendations</h2>
+        <div class="two-col">
+          <div class="card"><div class="big-emoji">🎬</div><h4>Movies</h4><p class="mini">Recommend a movie based on what similar people liked.</p></div>
+          <div class="card"><div class="big-emoji">🛒</div><h4>Shopping</h4><p class="mini">Recommend a product based on past choices and similar users.</p></div>
+        </div>
+        <div class="activity-box mini"><strong>Greenhouse parallel:</strong> recommend a better light level or irrigation schedule based on past plant growth data.</div>
+      </section>
+
+      <section>
+        <h2>Unsupervised Learning: Finding Hidden Groups</h2>
+          <div class="concept-box" style="font-size:0.58em; line-height:1.2;">
+            <p>Sometimes we do not have labels.</p>
+            <p>The computer can still look for groups in the data.</p>
+            <p><strong>Example:</strong> group greenhouse locations into cool/dim, warm/bright, and middle zones.</p>
+          </div>
+      </section>
+
+      <section>
+        <h2>Code Demo 2: Find Greenhouse Zones</h2>
+        <pre class="codebox"><code class="language-python">import numpy as np
+from sklearn.cluster import KMeans
+
+# Each row is one greenhouse location: [light_PPFD, temperature_C]
+X = np.array([
+    [120, 21], [150, 22], [300, 25],
+    [350, 26], [230, 23], [260, 24]
+])
+
+model = KMeans(n_clusters=3, random_state=0, n_init="auto")
+labels = model.fit_predict(X)
+
+print("Zone labels:", labels)
+print("Zone centers:", model.cluster_centers_)</code></pre>
+      </section>
+
+      <section>
+        <h2>Regression: Predict a Number</h2>
+        <div class="concept-box">
+          <p><strong>Classification</strong> predicts a category: healthy or stressed, play or not play.</p>
+          <p><strong>Regression</strong> predicts a number: tomorrow’s water use, plant height, or expected yield.</p>
+        </div>
+        <div class="formula-box center mini">Temperature + humidity + light → model → predicted plant water use</div>
+      </section>
+
+      <section>
+        <h2>Code Demo 3: Predict Plant Water Use</h2>
+        <pre class="codebox"><code class="language-python">import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+data = pd.DataFrame({
+    "temperature_C": [20, 22, 24, 26, 28],
+    "humidity_percent": [80, 75, 70, 65, 60],
+    "light_PPFD": [150, 190, 250, 320, 390],
+    "water_use_mL": [45, 52, 63, 78, 94]
+})
+
+X = data[["temperature_C", "humidity_percent", "light_PPFD"]]
+y = data["water_use_mL"]
+
+model = LinearRegression()
+model.fit(X, y)
+
+new_day = pd.DataFrame({"temperature_C": [26], "humidity_percent": [65], "light_PPFD": [330]})
+print("Predicted water use:", model.predict(new_day)[0])</code></pre>
+      </section>
+
+      <section>
+        <h2>AI + Sensors in a Greenhouse</h2>
+        <div class="flow">
+          <div class="flow-step">Sensors<br><span class="mini">temperature, light, pH, EC</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-step">Data<br><span class="mini">numbers over time</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-step">AI/ML model<br><span class="mini">find patterns</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-step">Action<br><span class="mini">fan, pump, light, alert</span></div>
+        </div>
+        <div class="example-box mini">The sensor gives the computer “eyes and ears.” AI helps the computer decide what the data might mean.</div>
+      </section>
+
+      <section>
+        <h2>Greenhouse Example: Plant Stress Detection</h2>
+        <div class="two-col-wide">
+          <div class="image-card card">
+            <img src="../images/lettuce_stress_camera.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Lettuce stress detection" />
+            <div class="placeholder" style="display:none;">Suggested image: camera looking at lettuce canopy or close-up leaf symptoms</div>
+          </div>
+          <div class="example-box" style="font-size:0.58em; line-height:1.2;">
+            <p><strong>Input:</strong> plant images from a camera.</p>
+            <p><strong>Model:</strong> image classifier.</p>
+            <p><strong>Output:</strong> healthy, yellowing, wilting, or possible nutrient stress.</p>
+            <p><strong>Action:</strong> ask a human to inspect or adjust nutrients/water.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Greenhouse Example: Sensor Anomaly Detection</h2>
+        <div class="two-col">
+          <div class="concept-box">
+            <p>A sensor can fail, drift, or report impossible values.</p>
+            <p>AI can help notice when a reading looks unusual compared with normal behavior.</p>
+          </div>
+          <div class="activity-box">
+            <p><strong>Example:</strong></p>
+            <p class="mini">If pH usually stays near 6.2 but suddenly jumps to 9.8, the system should not blindly trust it.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Code Demo 4: Flag Strange pH Values</h2>
+        <pre class="codebox"><code class="language-python">import numpy as np
+
+ph = np.array([6.1, 6.2, 6.3, 6.2, 6.1, 9.8, 6.2, 6.3])
+mean = np.mean(ph)
+std = np.std(ph)
+
+z_score = (ph - mean) / std
+anomaly = np.abs(z_score) > 2
+
+print("pH readings:", ph)
+print("Strange readings:", ph[anomaly])</code></pre>
+      </section>
+
+      <section>
+        <h2>AI is Powerful, But Not Perfect</h2>
+        <div class="three-col">
+          <div class="card"><div class="big-emoji">🗑️</div><h4>Bad data</h4><p class="mini">Wrong sensor data can teach wrong patterns.</p></div>
+          <div class="card"><div class="big-emoji">⚖️</div><h4>Bias</h4><p class="mini">A model may fail on examples it has never seen.</p></div>
+          <div class="card"><div class="big-emoji">❓</div><h4>Explainability</h4><p class="mini">Some models are hard to understand.</p></div>
+        </div>
+        <div class="warning-box mini"><strong>Key idea:</strong> AI should support human decisions, not replace careful thinking.</div>
+      </section>
+
+      <section>
+        <h2>Mini Activity: Design an AI Greenhouse Helper</h2>
+        <div class="activity-box">
+          <ol>
+            <li>What problem do you want the greenhouse helper to solve?</li>
+            <li>What data would it need?</li>
+            <li>What should the model predict or detect?</li>
+            <li>What action should happen after the prediction?</li>
+          </ol>
+        </div>
+      </section>
+
+      <section>
+        <h2>Day 2 AI/ML Takeaways</h2>
+        <div class="concept-box">
+          <ul>
+            <li>AI is the broad idea of computers doing tasks that seem intelligent.</li>
+            <li>Machine learning lets computers learn patterns from data.</li>
+            <li>Models can classify categories, predict numbers, find groups, or support decisions.</li>
+            <li>In CEA, sensors and cameras create data; AI helps turn data into insight and action.</li>
+          </ul>
+        </div>
+      </section>
+
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+      slideNumber: "c/t",
+      transition: "slide",
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+  </script>
+</body>
+</html>

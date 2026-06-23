@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AIFS Summer Camp - Day 2 Sensors and IoT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/monokai.min.css" />
+
+  <style>
+:root {
+  --aifs-green: #123524;
+  --aifs-green-2: #2f855a;
+  --aifs-mint: #e7f6ed;
+  --aifs-blue: #2563eb;
+  --aifs-orange: #f97316;
+  --aifs-red: #dc2626;
+  --aifs-purple: #7c3aed;
+  --aifs-cyan: #0891b2;
+  --ink: #1f2933;
+  --muted: #5f6f7a;
+}
+.reveal {
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  color: var(--ink);
+}
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  color: var(--aifs-green);
+  letter-spacing: -0.02em;
+}
+.reveal p, .reveal li { line-height: 1.34; }
+.reveal ul, .reveal ol { text-align: left; }
+.reveal pre { width: 96%; font-size: 0.45em; margin-top: 10px; }
+.reveal code { border-radius: 10px; }
+.back-link {
+  position: fixed;
+  top: 16px;
+  left: 20px;
+  z-index: 1000;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--aifs-green);
+  background: rgba(255,255,255,0.94);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.16);
+}
+.logo-strip {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.logo-strip img {
+  height: 46px;
+  max-width: 90px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.92);
+  border-radius: 12px;
+  padding: 4px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+.title-card { text-align: center; }
+.title-pill {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--aifs-mint);
+  color: var(--aifs-green-2);
+  font-weight: 800;
+  margin-bottom: 16px;
+  font-size: 0.55em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.concept-box, .example-box, .activity-box, .warning-box, .formula-box {
+  border-radius: 18px;
+  padding: 20px;
+  margin: 16px 0;
+  text-align: left;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.concept-box { background: #f4fbf7; border-left: 8px solid var(--aifs-green-2); }
+.example-box { background: #eff6ff; border-left: 8px solid var(--aifs-blue); }
+.activity-box { background: #fff7ed; border-left: 8px solid var(--aifs-orange); }
+.warning-box { background: #fef2f2; border-left: 8px solid var(--aifs-red); }
+.formula-box { background: #f5f3ff; border-left: 8px solid var(--aifs-purple); font-family: "Segoe UI", Arial, sans-serif; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
+.two-col-wide { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 22px; align-items: center; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.06);
+}
+.card h4, .card h5 { margin-top: 0; }
+.flow { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.flow-step {
+  background: #f8fafc;
+  border: 2px solid #dbe4ee;
+  border-radius: 16px;
+  padding: 14px;
+  min-width: 150px;
+  max-width: 220px;
+  text-align: center;
+}
+.arrow { font-size: 1.5em; color: var(--aifs-green-2); font-weight: 900; }
+.camp-table { width: 100%; border-collapse: collapse; font-size: 0.49em; margin-top: 14px; }
+.camp-table th { background: var(--aifs-green); color: white; }
+.camp-table th, .camp-table td { border: 1px solid #cbd5e1; padding: 9px; text-align: left; vertical-align: top; }
+.big-emoji { font-size: 2.15em; }
+.medium-emoji { font-size: 1.75em; }
+.small { font-size: 0.68em; }
+.center { text-align: center; }
+.sensor-card {
+  min-height: 205px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sensor-icon {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: #f8fafc;
+  padding: 8px;
+  margin: 0 auto 8px auto;
+  box-shadow: inset 0 0 0 2px #e5e7eb;
+}
+.img-placeholder {
+  width: 86px;
+  height: 86px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #e7f6ed, #eff6ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px auto;
+  font-size: 2em;
+  box-shadow: inset 0 0 0 2px #dbe4ee;
+}
+.sensor-tag {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: white;
+  font-size: 0.48em;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.tag-digital { background: var(--aifs-blue); }
+.tag-analog { background: var(--aifs-orange); }
+.tag-i2c { background: var(--aifs-purple); }
+.tag-time { background: var(--aifs-cyan); }
+.signal-line {
+  height: 70px;
+  border-radius: 16px;
+  background: repeating-linear-gradient(90deg, #2563eb 0 24px, transparent 24px 42px), #eff6ff;
+  border: 2px solid #bfdbfe;
+}
+.analog-wave {
+  height: 70px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fff7ed, #fed7aa);
+  border: 2px solid #fdba74;
+  position: relative;
+  overflow: hidden;
+}
+.analog-wave::before {
+  content: "~ ~ ~ ~ ~ ~ ~";
+  position: absolute;
+  left: 18px;
+  top: 13px;
+  color: #f97316;
+  font-size: 1.25em;
+  font-weight: 900;
+  letter-spacing: 8px;
+}
+.device-stack {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+.device {
+  border-radius: 15px;
+  background: #f8fafc;
+  border: 2px solid #dbe4ee;
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 0.57em;
+  font-weight: 700;
+}
+.mini { font-size: 0.60em; line-height: 1.2; }
+.micro { font-size: 0.52em; line-height: 1.18; }
+.checklist li { margin: 8px 0; }
+
+.photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.photo-slot {
+  min-height: 150px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f8fafc, #eefcf3);
+  border: 3px dashed #b7d7c4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px;
+  color: var(--aifs-green);
+  font-size: 0.52em;
+  font-weight: 800;
+}
+.photo-slot span { display: block; margin-top: 6px; color: var(--muted); font-size: 0.75em; font-weight: 700; }
+.idea-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+.idea-chip {
+  border-radius: 16px;
+  padding: 13px 10px;
+  background: #ffffff;
+  border: 2px solid #dbe4ee;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.06);
+  text-align: center;
+  font-size: 0.55em;
+  font-weight: 800;
+}
+.greenhouse-body {
+  border-radius: 24px;
+  background: linear-gradient(180deg, #f4fbf7, #eff6ff);
+  border: 3px solid #b7d7c4;
+  padding: 22px;
+  position: relative;
+  min-height: 265px;
+}
+.greenhouse-body::before {
+  content: "";
+  position: absolute;
+  left: 50%; top: -38px;
+  transform: translateX(-50%);
+  width: 76%; height: 64px;
+  border: 3px solid #b7d7c4;
+  border-bottom: none;
+  border-radius: 160px 160px 0 0;
+  background: rgba(231,246,237,0.7);
+  z-index: -1;
+}
+.greenhouse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.gh-node { background: white; border-radius: 14px; border: 2px solid #dbe4ee; padding: 10px; text-align: center; font-size: 0.52em; font-weight: 800; }
+.big-center-icon { font-size: 3.3em; line-height: 1; margin-bottom: 6px; }
+.ai-flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; align-items: stretch; }
+.ai-step { background: #f8fafc; border: 2px solid #dbe4ee; border-radius: 16px; padding: 12px 8px; text-align: center; font-size: 0.50em; font-weight: 800; }
+.sensor-chain { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 8px; align-items: center; margin-top: 10px; }
+.sensor-chain .chain-step { border-radius: 16px; padding: 12px 8px; border: 2px solid #dbe4ee; background: #ffffff; text-align: center; font-size: 0.52em; font-weight: 800; min-height: 86px; display:flex; flex-direction:column; justify-content:center; }
+.sensor-chain .chain-arrow { color: var(--aifs-green-2); font-weight: 900; font-size: 1em; }
+
+/* Deeper definition slides */
+.definition-title {
+  display: inline-block;
+  font-weight: 900;
+  color: var(--aifs-green);
+  margin-bottom: 8px;
+}
+.definition-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 20px;
+  align-items: stretch;
+}
+.real-img-card {
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: center;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.real-img {
+  width: 100%;
+  max-height: 210px;
+  object-fit: contain;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+.real-img-wide {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+.caption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.46em;
+  line-height: 1.15;
+  font-weight: 700;
+}
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.47em;
+}
+.compare-table th {
+  background: var(--aifs-green);
+  color: white;
+}
+.compare-table th, .compare-table td {
+  border: 1px solid #cbd5e1;
+  padding: 9px;
+  text-align: left;
+  vertical-align: top;
+}
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.benefit-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.06);
+  min-height: 142px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.benefit-card h4 { font-size: 0.64em; margin: 2px 0 6px 0; }
+.benefit-card p { font-size: 0.48em; line-height: 1.18; margin: 0; }
+.icon-big { font-size: 1.9em; line-height: 1; margin-bottom: 6px; }
+.paired-figure {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.paired-figure .real-img-card { min-height: 210px; }
+.paired-figure .real-img { max-height: 150px; }
+.tight-box { font-size: 0.58em; line-height: 1.18; padding: 14px 16px; margin: 10px 0; }
+.tight-box p, .tight-box li { line-height: 1.18; margin: 5px 0; }
+.hardware-chain {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+.hardware-step {
+  background: #fff;
+  border: 2px solid #dbe4ee;
+  border-radius: 16px;
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 0.50em;
+  font-weight: 800;
+  min-height: 98px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.hardware-arrow { color: var(--aifs-green-2); font-weight: 900; font-size: 0.95em; }
+@media (max-width: 900px) {
+  .definition-grid, .benefit-grid, .paired-figure, .hardware-chain { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .photo-grid, .idea-strip, .greenhouse-grid, .ai-flow, .sensor-chain { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .two-col, .two-col-wide, .three-col, .four-col, .device-stack { grid-template-columns: 1fr; }
+  .logo-strip img { height: 34px; }
+  .back-link { font-size: 12px; padding: 8px 12px; }
+}
+  </style>
+</head>
+
+<body>
+  <a class="back-link" href="../day.html?day=2">← Back to Day 2</a>
+
+  <div class="logo-strip">
+    <img src="../images/aifs-icon.png" alt="AIFS icon" />
+    <img src="../images/cee_lab-icon.png" alt="CEE Lab icon" />
+  </div>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <section class="title-card">
+        <div class="title-pill">AIFS Summer Camp · Day 2</div>
+        <h1>Sensors and IoT Systems</h1>
+        <h3>How Greenhouses Sense, Think, and Respond</h3>
+        <p>Embedded systems, IoT, and greenhouse sensors for high-school explorers</p>
+      </section>
+
+      <section>
+        <h2>Today’s Big Idea</h2>
+        <div class="concept-box">
+          <p>A smart greenhouse is like a <strong>plant care robot</strong>. It can notice what is happening, remember the data, and help people make better decisions.</p>
+        </div>
+        <div class="flow">
+          <div class="flow-step" style="font-size: 0.6em;">
+            <strong>Sense</strong><br>
+            <span class="big-emoji">👀</span><br>
+            <span class="small">measure the world</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="flow-step" style="font-size: 0.6em;">
+            <strong>Think</strong><br>
+            <span class="big-emoji">🧠</span><br>
+            <span class="small">process data</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="flow-step" style="font-size: 0.6em;">
+            <strong>Act</strong><br>
+            <span class="big-emoji">⚙️</span><br>
+            <span class="small">control devices</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="flow-step" style="font-size: 0.6em;">
+            <strong>Learn</strong><br>
+            <span class="big-emoji">🤖</span><br>
+            <span class="small">improve with AI</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>How Day 2 Fits the Camp</h2>
+        <table class="camp-table">
+          <thead><tr><th>Camp Day</th><th>Main Question</th><th>What You Build Toward</th></tr></thead>
+          <tbody>
+            <tr><td>Day 1</td><td>What is controlled environment agriculture?</td><td>Indoor farming systems and Arduino basics</td></tr>
+            <tr><td><strong>Day 2</strong></td><td><strong>How do we measure the greenhouse?</strong></td><td><strong>Sensor data collection and IoT thinking</strong></td></tr>
+            <tr><td>Day 3</td><td>How can cameras help monitor plants?</td><td>Plant images and computer vision ideas</td></tr>
+            <tr><td>Day 4</td><td>How can IoT and ML solve real problems?</td><td>Team presentations and application ideas</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>What Is an Embedded System?</h2>
+        <div class="definition-grid">
+          <div>
+            <div class="concept-box tight-box">
+              <p><span class="definition-title">Definition:</span> An <strong>embedded system</strong> is a small microcontroller based system designed to perform a specific task, consisting of hardware and software components.</p>
+              <p>It is usually hidden inside the product. You may not see a keyboard, screen, or mouse, but there is still a computer making decisions.</p>
+            </div>
+            <div class="activity-box tight-box">
+              <p><strong>Metaphor:</strong> An embedded system is like a <strong>reflex</strong>. When your hand touches something hot, your body reacts quickly. In the same way, an embedded controller reacts to sensor readings.</p>
+            </div>
+          </div>
+          <div class="real-img-card">
+            <img class="real-img" src="../images/examples-microwave-day2.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Arduino connected to wires" />
+            <div class="photo-slot" style="display:none; min-height:180px;"></span></div>
+            <div class="caption">Image: Microwave oven with embedded controller</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Embedded System vs. General Computer</h2>
+        <table class="compare-table">
+          <thead>
+            <tr><th>Feature</th><th>General PC / Laptop</th><th>Embedded System</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Main purpose</td><td>Many tasks: homework, games, web browsing, video editing</td><td>One focused job: read sensors, control motors, run a machine</td></tr>
+            <tr><td>User interface</td><td>Screen, keyboard, mouse, apps</td><td>Often no screen; may only have buttons, LEDs, or automatic control</td></tr>
+            <tr><td>Power use</td><td>Usually higher power</td><td>Usually lower power, can run from batteries or small adapters</td></tr>
+            <tr><td>Timing</td><td>Human-paced</td><td>Often needs fast, repeated, reliable responses</td></tr>
+            <tr><td>Example</td><td>School laptop</td><td>Car airbag controller, thermostat, irrigation controller, Arduino sensor node</td></tr>
+          </tbody>
+        </table>
+        <div class="example-box tight-box">
+          <p><strong>Simple way to remember:</strong> a PC is a toolbox with many tools. An embedded system is one tool designed to do one job very well.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Real-World Example: Automobiles</h2>
+        <div class="two-col">
+          <div class="real-img-card">
+            <img class="real-img-wide" src="../images/examples-brake-day2.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Car dashboard electronics" />
+            <div class="photo-slot" style="display:none; min-height:180px;"></span></div>
+            <div class="caption">Image: Car brake system with embedded controller</div>
+          </div>
+          <div class="concept-box tight-box">
+            <p>A modern car contains many embedded systems. They are small computers working together while you drive.</p>
+            <ul>
+              <li><strong>Engine controller:</strong> adjusts fuel and air mixture.</li>
+              <li><strong>Parking sensor:</strong> measures distance to nearby objects.</li>
+              <li><strong>Airbag controller:</strong> reacts quickly during a crash.</li>
+              <li><strong>Climate controller:</strong> keeps the cabin comfortable.</li>
+            </ul>
+            <p><strong>Greenhouse connection:</strong> a smart greenhouse also has many small control tasks happening at the same time.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Why Embedded Systems Are Useful</h2>
+        <div class="benefit-grid">
+          <div class="benefit-card"><div class="icon-big">⚡</div><h4>Fast response</h4><p>They can react immediately when a sensor value changes.</p></div>
+          <div class="benefit-card"><div class="icon-big">🔁</div><h4>Repeatable</h4><p>They can check the same condition every second without getting tired.</p></div>
+          <div class="benefit-card"><div class="icon-big">🔋</div><h4>Low power</h4><p>They can run small devices without needing a full computer.</p></div>
+          <div class="benefit-card"><div class="icon-big">🛠️</div><h4>Reliable</h4><p>They are designed for one focused job, so they can be stable and predictable.</p></div>
+        </div>
+        <div class="activity-box tight-box">
+          <p><strong>Greenhouse example:</strong> If the water level becomes too low at 2:00 am, an embedded controller can turn on an alarm or pump even when no person is watching.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>What Is a Microcontroller?</h2>
+        <div class="definition-grid">
+          <div>
+            <div class="concept-box tight-box">
+              <p>A <strong>microcontroller</strong> is a tiny computer on one chip. It usually contains a processor, memory, and input/output pins.</p>
+              <p>It is the part of an embedded system that runs the code and connects to sensors and actuators.</p>
+            </div>
+            <div class="formula-box tight-box">
+              <p><strong>Think of it as:</strong></p>
+              <p class="center" style="font-size:1.15em;"><strong>microcontroller = small brain + memory + connection pins</strong></p>
+            </div>
+          </div>
+          <div class="paired-figure">
+            <div class="real-img-card">
+              <img class="real-img" src="../images/arduino.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Arduino Uno board" />
+              <div class="photo-slot" style="display:none; min-height:130px;">Arduino board<span>/images/arduino.png</span></div>
+              <div class="caption">Arduino Uno board</div>
+            </div>
+            <div class="real-img-card">
+              <img class="real-img" src="../images/raspberry-pi.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Raspberry Pi" />
+              <div class="photo-slot" style="display:none; min-height:130px;">Raspberry Pi<span>/images/raspberry-pi.jpg</span></div>
+              <div class="caption">Raspberry Pi or single-board computer</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Microcontroller Pins: How It Talks to Hardware</h2>
+        <div class="hardware-chain">
+          <div class="hardware-step">Sensor input<br><span class="medium-emoji">🌡️</span><br><span class="small">data comes in</span></div>
+          <div class="hardware-arrow">→</div>
+          <div class="hardware-step">Microcontroller<br><span class="medium-emoji">🔌</span><br><span class="small">runs code</span></div>
+          <div class="hardware-arrow">→</div>
+          <div class="hardware-step">Decision<br><span class="medium-emoji">🧠</span><br><span class="small">compare to target</span></div>
+          <div class="hardware-arrow">→</div>
+          <div class="hardware-step">Output pin<br><span class="medium-emoji">⚡</span><br><span class="small">send signal</span></div>
+          <div class="hardware-arrow">→</div>
+          <div class="hardware-step">Actuator<br><span class="medium-emoji">⚙️</span><br><span class="small">physical action</span></div>
+        </div>
+        <div class="example-box tight-box">
+          <p><strong>Example:</strong> If the temperature is above 30°C, Arduino can send an output signal to turn on a fan.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>What Are Sensors and Actuators?</h2>
+        <div class="two-col">
+          <div class="concept-box tight-box">
+            <h4>Sensors = input</h4>
+            <p>A <strong>sensor</strong> detects something in the real world and turns it into data.</p>
+            <p><strong>Metaphor:</strong> sensors are the greenhouse’s eyes, ears, nose, and skin.</p>
+            <p><strong>Examples:</strong> DHT11, PAR sensor, pH sensor, EC sensor, ultrasonic sensor, camera.</p>
+          </div>
+          <div class="activity-box tight-box">
+            <h4>Actuators = output</h4>
+            <p>An <strong>actuator</strong> receives a signal and makes something happen physically.</p>
+            <p><strong>Metaphor:</strong> actuators are the greenhouse’s hands and muscles.</p>
+            <p><strong>Examples:</strong> fan, water pump, LED light, valve, buzzer, servo motor.</p>
+          </div>
+        </div>
+        <div class="formula-box center tight-box">
+          Sensor asks: “What is happening?” &nbsp; → &nbsp; Actuator answers: “What should we do?”
+        </div>
+      </section>
+
+      <section>
+        <h2>Specific Example: DHT11 Sensor</h2>
+        <div class="definition-grid">
+          <div>
+            <div class="concept-box tight-box">
+              <p><strong>DHT11</strong> is a small digital sensor that measures <strong>air temperature</strong> and <strong>relative humidity</strong>.</p>
+              <p>It is useful because plants lose water faster when air is hot and dry.</p>
+              <p><strong>Greenhouse question:</strong> Is the air comfortable for lettuce?</p>
+            </div>
+            <div class="example-box tight-box">
+              <p><strong>Example response:</strong> If the DHT11 reads 32°C and low humidity, the system may turn on a fan or send an alert.</p>
+            </div>
+          </div>
+          <div class="real-img-card">
+            <img class="real-img" src="../images/dht11.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="DHT11 temperature and humidity sensor" />
+            <div class="photo-slot" style="display:none; min-height:180px;">Insert real image: DHT11 sensor<span>/images/dht11.png</span></div>
+            <div class="caption">Suggested image: DHT11 blue sensor module with three pins.</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Specific Example: Servo Motor</h2>
+        <div class="definition-grid">
+          <div class="real-img-card">
+            <img class="real-img" src="../images/servo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Servo motor" />
+            <div class="photo-slot" style="display:none; min-height:180px;">Insert real image: small servo motor<span>/images/servo.png</span></div>
+            <div class="caption">Suggested image: SG90 micro servo motor with orange, red, and brown wires.</div>
+          </div>
+          <div>
+            <div class="activity-box tight-box">
+              <p>A <strong>servo motor</strong> is an actuator that rotates to a commanded angle, such as 0°, 90°, or 180°.</p>
+              <p>It is like a tiny robotic wrist. Instead of just spinning forever, it moves to a position.</p>
+            </div>
+            <div class="example-box tight-box">
+              <p><strong>Greenhouse examples:</strong></p>
+              <ul>
+                <li>Open or close a small vent.</li>
+                <li>Move a camera to view different plants.</li>
+                <li>Adjust a small shade flap.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Greenhouse Embedded System Example</h2>
+        <div class="hardware-chain">
+          <div class="hardware-step">DHT11 senses hot air<br><span class="medium-emoji">🌡️</span></div>
+          <div class="hardware-arrow">→</div>
+          <div class="hardware-step">Arduino reads value<br><span class="medium-emoji">🔌</span></div>
+          <div class="hardware-arrow">→</div>
+          <div class="hardware-step">Code checks rule<br><span class="medium-emoji">🧠</span><br><span class="small">temp &gt; 30°C?</span></div>
+          <div class="hardware-arrow">→</div>
+          <div class="hardware-step">Fan or servo turns on<br><span class="medium-emoji">⚙️</span></div>
+          <div class="hardware-arrow">→</div>
+          <div class="hardware-step">Plant environment improves<br><span class="medium-emoji">🥬</span></div>
+        </div>
+        <div class="formula-box center tight-box">
+          This is a simple feedback loop: <strong>measure → compare → act → measure again</strong>
+        </div>
+      </section>
+
+      <section>
+        <h2>What Is IoT?</h2>
+        <div class="definition-grid">
+          <div>
+            <div class="concept-box tight-box">
+              <p><strong>IoT</strong> means <strong>Internet of Things</strong>.</p>
+              <p>It means real-world devices can collect data and share it through a network, often to a phone, computer, cloud database, or dashboard.</p>
+              <p><strong>Key idea:</strong> IoT lets a greenhouse “send messages” using data.</p>
+            </div>
+            <div class="example-box tight-box">
+              <p><strong>Example:</strong> A greenhouse sensor measures temperature every minute. The data appears on a dashboard, so a grower can check conditions from home.</p>
+            </div>
+          </div>
+          <div class="real-img-card">
+            <img class="real-img-wide" src="../images/iot-dashboard.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="IoT dashboard" />
+            <div class="photo-slot" style="display:none; min-height:180px;">Insert real image: IoT dashboard or phone app<span>/images/iot-dashboard.jpg</span></div>
+            <div class="caption">Image: Computer dashboard showing sensor readings.</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>IoT Greenhouse Data Path</h2>
+        <div class="device-stack">
+          <div class="device">1. Sensor<br><span class="medium-emoji">🌡️</span><br><span class="small">measures</span></div>
+          <div class="device">2. Microcontroller<br><span class="medium-emoji">🔌</span><br><span class="small">reads</span></div>
+          <div class="device">3. Network<br><span class="medium-emoji">📶</span><br><span class="small">sends</span></div>
+          <div class="device">4. Cloud / Computer<br><span class="medium-emoji">☁️</span><br><span class="small">stores</span></div>
+          <div class="device">5. Dashboard<br><span class="medium-emoji">📊</span><br><span class="small">shows</span></div>
+        </div>
+        <div class="activity-box tight-box">
+          <p><strong>Why this matters:</strong> One reading is a snapshot. Many readings over time become a story about how the greenhouse changes during the day.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>How Sensors, IoT, and AI Connect</h2>
+        <div class="ai-flow">
+          <div class="ai-step">Sensors collect examples<br>🌡️💡💧</div>
+          <div class="ai-step">IoT saves the data<br>☁️</div>
+          <div class="ai-step">ML finds patterns<br>🔍</div>
+          <div class="ai-step">AI makes predictions<br>🤖</div>
+          <div class="ai-step">Actuators respond<br>⚙️</div>
+        </div>
+        <div class="concept-box tight-box">
+          <p>Machine learning learns from examples. In a greenhouse, examples can be sensor readings, camera images, plant growth measurements, and control actions.</p>
+          <p><strong>Example AI question:</strong> Can yesterday’s temperature, humidity, light, and water-level data help predict whether plants will need more irrigation tomorrow?</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Why This Matters for Controlled Environment Agriculture</h2>
+        <div class="two-col">
+          <div class="greenhouse-body">
+            <div class="big-center-icon center">🏡🥬</div>
+            <div class="greenhouse-grid">
+              <div class="gh-node">Light<br>PAR</div>
+              <div class="gh-node">Air<br>DHT11</div>
+              <div class="gh-node">Water<br>pH/EC</div>
+              <div class="gh-node">Tank<br>Ultrasonic</div>
+              <div class="gh-node">AI<br>Prediction</div>
+              <div class="gh-node">Actuator<br>Fan/Pump/Servo</div>
+            </div>
+          </div>
+          <div>
+            <div class="concept-box tight-box">
+              <p>Plants cannot directly tell us when something is wrong.</p>
+              <p>Embedded systems and IoT help us listen to plants through data.</p>
+            </div>
+            <div class="warning-box tight-box">
+              <p><strong>Without data:</strong> we guess.</p>
+              <p><strong>With data:</strong> we observe, compare, and improve.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Today’s Sensor Toolkit</h2>
+        <div class="three-col">
+          <div class="card sensor-card"><div class="img-placeholder">🌡️</div><h4>DHT11</h4><p class="mini">Air temperature and humidity</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">☀️</div><h4>PAR Sensor</h4><p class="mini">Plant-useful light</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">🧪</div><h4>pH Sensor</h4><p class="mini">Acidic or basic water</p></div>
+        </div>
+        <div class="three-col" style="margin-top:14px;">
+          <div class="card sensor-card"><div class="img-placeholder">⚡</div><h4>EC Sensor</h4><p class="mini">Total dissolved salts</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">📏</div><h4>Ultrasonic</h4><p class="mini">Distance or water level</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">🔌</div><h4>Arduino / Pi</h4><p class="mini">Read, store, and share data</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Two Common Sensor Languages</h2>
+
+        <div class="two-col">
+          <div class="card" style="font-size:20px; line-height:1.2; padding:14px;">
+            <span class="sensor-tag tag-digital">Digital</span>
+            <h4>ON/OFF or coded messages</h4>
+
+            <img
+              src="../images/digital_signal.png"
+              onerror="this.onerror=null;this.src='/images/digital_signal.png';"
+              alt="Digital signal example"
+              style="width:100%; max-height:230px; object-fit:contain; margin:8px 0;"
+            />
+
+            <p class="mini">
+              Like a light switch: HIGH/LOW, 1/0, yes/no, or a timed digital message.
+            </p>
+          </div>
+
+          <div class="card" style="font-size:20px; line-height:1.2; padding:14px;">
+            <span class="sensor-tag tag-analog">Analog</span>
+            <h4>Smooth changing voltage</h4>
+
+            <img
+              src="../images/analog_signal.png"
+              onerror="this.onerror=null;this.src='/images/analog_signal.png';"
+              alt="Analog signal example"
+              style="width:100%; max-height:230px; object-fit:contain; margin:8px 0;"
+            />
+
+            <p class="mini">
+              Like a dimmer knob: the value can gradually increase or decrease.
+            </p>
+          </div>
+        </div>
+
+        <div class="formula-box center mini" style="font-size:20px; line-height:1.2; padding:12px 16px; margin-top:12px;">
+          Real world → sensor signal → Arduino/Raspberry Pi → useful data
+        </div>
+      </section>
+
+      <section>
+        <h2>Sensor Tour: What We Can Measure</h2>
+        <div class="three-col">
+          <div class="card sensor-card"><div class="img-placeholder">🌡️</div><h4>DHT11</h4><p class="mini">Air temperature and humidity</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">💡</div><h4>PAR Sensor</h4><p class="mini">Plant-useful light intensity</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">🧪</div><h4>pH Sensor</h4><p class="mini">How acidic/basic the nutrient solution is</p></div>
+        </div>
+        <div class="two-col" style="margin-top:16px;">
+          <div class="card sensor-card"><div class="img-placeholder">⚡</div><h4>EC Sensor</h4><p class="mini">How much dissolved fertilizer is in the water</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">📏</div><h4>Ultrasonic Sensor</h4><p class="mini">Distance, water level, or object position</p></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>DHT11: Temperature + Humidity</h2>
+        <div class="two-col-wide">
+          <div>
+            <div class="concept-box">
+              <p>The <strong>DHT11</strong> is like a small weather station. It measures how warm the air is and how much water vapor is in the air.</p>
+              <p>In a greenhouse, these two numbers help us understand plant comfort.</p>
+            </div>
+            <div class="activity-box mini">
+              <strong>Think:</strong> Why might lettuce feel stressed if the greenhouse is hot and dry?
+            </div>
+          </div>
+          <div class="card sensor-card">
+            <img class="sensor-icon" src="../images/dht11.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="DHT11 sensor" />
+            <div class="img-placeholder" style="display:none;">🌡️</div>
+            <h4>DHT11</h4>
+            <p class="mini">Measures air temperature and relative humidity.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>DHT11 Greenhouse Example</h2>
+        <div class="example-box">
+          <p><strong>Scenario:</strong> The DHT11 reports warm air and low humidity.</p>
+          <p><strong>What it might mean:</strong> plants may lose water faster, like a person sweating on a hot day.</p>
+          <p><strong>Possible response:</strong> turn on a fan, adjust misting, or check irrigation.</p>
+        </div>
+        <pre><code class="language-cpp">// Simple idea: read temperature and humidity, then print them
+// In Arduino, DHT11 usually needs a DHT sensor library.
+
+Temperature = sensor reading from DHT11
+Humidity    = sensor reading from DHT11
+
+if (Temperature is high and Humidity is low) {
+  turn on warning light or fan
+}</code></pre>
+      </section>
+
+      <section>
+        <h2>PAR Sensor: A Light Meter for Plants</h2>
+        <div class="two-col-wide">
+          <div>
+            <div class="concept-box" style="font-size:0.8em;">
+              <p><strong>PAR</strong> means <strong>Photosynthetically Active Radiation</strong>: the part of light plants use for photosynthesis.</p>
+              <p>A PAR sensor measures how much useful light is reaching the leaves.</p>
+            </div>
+            <div class="formula-box mini" style="font-size:0.6em;">
+              <strong>Simple idea:</strong> More useful light usually means more energy for growth, but too much light can waste energy or stress plants.
+            </div>
+          </div>
+          <div class="card sensor-card">
+            <img class="sensor-icon" src="../images/par_sensor.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="PAR sensor" />
+            <div class="img-placeholder" style="display:none;">💡</div>
+            <h4>PAR Sensor</h4>
+            <p class="mini">Measures light that plants can use.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>pH Sensor: The “Sour or Basic” Meter</h2>
+        <div class="two-col-wide">
+          <div>
+            <div class="concept-box" style="font-size:0.8em;">
+              <p><strong>pH</strong> tells us whether water is acidic, neutral, or basic.</p>
+              <p>Plants care about pH because it changes how easily roots can take up nutrients.</p>
+            </div>
+          </div>
+          <div class="card sensor-card">
+            <img class="sensor-icon" src="../images/ph_sensor.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="pH sensor" />
+            <div class="img-placeholder" style="display:none;">🧪</div>
+            <h4>pH Sensor</h4>
+            <p class="mini">Measures acidity/basicity of the nutrient solution.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>pH Scale: A Number With Meaning</h2>
+        <div class="flow">
+          <div class="flow-step" style="background:#eff6ff;">Acidic<br><span class="big-emoji">🍋</span><br><span class="small">lower pH</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-step" style="background:#f4fbf7;">Neutral<br><span class="big-emoji">💧</span><br><span class="small">around pH 7</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-step" style="background:#f5f3ff;">Basic<br><span class="big-emoji">🧼</span><br><span class="small">higher pH</span></div>
+        </div>
+        <div class="warning-box mini">
+          pH sensors need calibration. Calibration is like teaching the sensor what “known answers” look like before asking it to measure unknown water.
+        </div>
+      </section>
+
+      <section>
+        <h2>EC Sensor: Fertilizer Strength Meter</h2>
+        <div class="two-col-wide">
+          <div>
+            <div class="concept-box" style="font-size:0.8em;">
+              <p><strong>EC</strong> means <strong>electrical conductivity</strong>. It tells us how easily electricity moves through the nutrient solution.</p>
+              <p>More dissolved ions usually means higher EC. In hydroponics, EC is a quick clue about fertilizer strength.</p>
+            </div>
+ 
+          </div>
+          <div class="card sensor-card">
+            <img class="sensor-icon" src="../images/ec_sensor.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="EC sensor" />
+            <div class="img-placeholder" style="display:none;">⚡</div>
+            <h4>EC Sensor</h4>
+            <p class="mini">Estimates total dissolved fertilizer ions.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <section>
+        <h2>Ultrasonic Sensor: Measuring Distance Like a Bat</h2>
+        <div class="two-col-wide">
+          <div>
+            <div class="concept-box" style="font-size:0.8em;">
+              <p>An <strong>ultrasonic sensor</strong> sends out a sound pulse and listens for the echo.</p>
+              <p>It measures how long the echo takes to come back. Longer time means farther distance.</p>
+            </div>
+            <div class="formula-box center mini">
+              Distance = speed of sound × echo time ÷ 2<br>
+              <span class="small">Divide by 2 because the sound travels out and back.</span>
+            </div>
+          </div>
+          <div class="card sensor-card">
+            <img class="sensor-icon" src="../images/ultrasonic.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Ultrasonic sensor" />
+            <div class="img-placeholder" style="display:none;">📏</div>
+            <h4>Ultrasonic Sensor</h4>
+            <p class="mini">Measures distance using sound echoes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ultrasonic Sensor Basics</h2>
+
+        <div class="center">
+          <img
+            src="../images/ultrasonic_guide.jpg"
+            onerror="this.onerror=null;this.src='/images/ultrasonic_guide.jpg';"
+            alt="Ultrasonic sensor guide"
+            style="width:82%; max-height:520px; object-fit:contain; border-radius:18px;"
+          />
+        </div>
+
+        <div class="activity-box mini" style="margin-top:12px;">
+          <strong>Idea:</strong> The sensor sends out sound, waits for the echo, and uses the return time to estimate distance.
+        </div>
+      </section>
+
+      <section>
+        <h2>Sensor Comparison Table</h2>
+        <table class="camp-table">
+          <thead><tr><th>Sensor</th><th>What it measures</th><th>Greenhouse question it helps answer</th><th>Possible action</th></tr></thead>
+          <tbody>
+            <tr><td>DHT11</td><td>Temperature and humidity</td><td>Is the air comfortable for plants?</td><td>Turn fan, heater, humidifier, or alarm on/off</td></tr>
+            <tr><td>PAR</td><td>Plant-useful light</td><td>Are leaves receiving enough light?</td><td>Adjust LED height, brightness, or schedule</td></tr>
+            <tr><td>pH</td><td>Acidity/basicity</td><td>Can roots access nutrients easily?</td><td>Add pH up/down or warning signal</td></tr>
+            <tr><td>EC</td><td>Total dissolved ions</td><td>Is nutrient solution weak or strong?</td><td>Add water or fertilizer carefully</td></tr>
+            <tr><td>Ultrasonic</td><td>Distance/water level</td><td>Is the reservoir running low?</td><td>Trigger refill pump or alarm</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>From Sensor Signal to Useful Data</h2>
+        <div class="flow">
+          <div class="flow-step">Real condition<br><span class="small">warm air, bright light, low water</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-step">Sensor signal<br><span class="small">voltage, pulses, digital message</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-step">MCU reading<br><span class="small">pure numbers</span></div>
+          <div class="arrow">→</div>
+          <div class="flow-step">Meaning<br><span class="small">°C, %, pH, EC, cm, light</span></div>
+        </div>
+        <div class="formula-box center mini">
+          Raw reading → calibration equation → useful measurement
+        </div>
+      </section>
+
+      <section>
+        <h2>Example Code Idea: Analog Sensor Reading</h2>
+        <div class="concept-box mini">
+          <p>Many sensors output a voltage. Arduino reads this voltage as a number, then we convert the number into useful data.</p>
+        </div>
+        <pre><code class="language-cpp">const int sensorPin = A0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int rawValue = analogRead(sensorPin);
+
+  // Convert raw 0–1023 reading into voltage
+  float voltage = rawValue * (5.0 / 1023.0);
+
+  Serial.print("Raw value: ");
+  Serial.print(rawValue);
+  Serial.print(" | Voltage: ");
+  Serial.println(voltage);
+
+  delay(500);
+}</code></pre>
+      </section>
+
+      <section>
+        <h2>Example Code Idea: Ultrasonic Distance</h2>
+        <div class="concept-box mini">
+          <p>For ultrasonic sensors, Arduino measures time. Then it uses the speed of sound to estimate distance.</p>
+        </div>
+        <pre><code class="language-cpp">const int trigPin = 9;
+const int echoPin = 10;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+}
+
+void loop() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  long duration = pulseIn(echoPin, HIGH);
+  float distanceCm = duration * 0.0343 / 2.0;
+
+  Serial.print("Distance: ");
+  Serial.print(distanceCm);
+  Serial.println(" cm");
+
+  delay(500);
+}</code></pre>
+      </section>
+
+      <section>
+        <h2>What Makes Sensor Data Trustworthy?</h2>
+        <div class="three-col">
+          <div class="card sensor-card"><div class="img-placeholder">🎯</div><h4>Calibration</h4><p class="mini">Compare with known references so the sensor learns the correct scale.</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">📍</div><h4>Placement</h4><p class="mini">A sensor in the wrong place can tell the wrong story.</p></div>
+          <div class="card sensor-card"><div class="img-placeholder">🧹</div><h4>Cleaning</h4><p class="mini">Water sensors can drift if probes get dirty or dry.</p></div>
+        </div>
+        <div class="warning-box mini">
+          A sensor is not automatically “right.” Good engineers always ask: Does this number make sense?
+        </div>
+      </section>
+
+      <section>
+        <h2>Mini IoT Greenhouse: Example System</h2>
+        <div class="flow">
+          <div class="flow-step">DHT11 checks air</div>
+          <div class="arrow">→</div>
+          <div class="flow-step">PAR checks light</div>
+          <div class="arrow">→</div>
+          <div class="flow-step">pH/EC check water</div>
+          <div class="arrow">→</div>
+          <div class="flow-step">Ultrasonic checks tank</div>
+        </div>
+        <div class="concept-box mini">
+          <p>The microcontroller collects all sensor readings and sends them to a computer or dashboard. Then we can decide what to adjust.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Day 2 Key Takeaways</h2>
+        <div class="concept-box">
+          <ul>
+            <li>Embedded systems are tiny computers inside real devices.</li>
+            <li>IoT connects sensors, microcontrollers, networks, and dashboards.</li>
+            <li>DHT11, PAR, pH, EC, and ultrasonic sensors each answer a different greenhouse question.</li>
+            <li>Good sensor data requires calibration, good placement, and careful interpretation.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+      slideNumber: "c/t",
+      transition: "slide",
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+  </script>
+</body>
+</html>

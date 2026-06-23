@@ -4,17 +4,31 @@ const dayData = {
     intro: "Welcome to Day 1 of AIFS Summer Camp. Choose the learning resource you want to open.",
     workshopDescription:
       "Interactive facility exploration where students observe plant growth systems, ask questions, and identify key components used in indoor farming.",
+    materialFile: "slides/day1-in-class.pdf",
     workshopFile: "slides/day1-workshop/"
   },
 
   2: {
     title: "Sensors and IoT Systems in Greenhouse",
     intro: "Welcome to Day 2 of AIFS Summer Camp. Choose the learning resource you want to open.",
+
     materialDescription:
-      "Introduction to microcontrollers, programming, and common greenhouse sensors, including temperature, humidity, light, CO₂, pH, EC, and water-quality sensors.",
+      "Two lecture modules are provided: one on greenhouse sensors and IoT systems, and one on AI/ML connections in controlled environment agriculture.",
+
     workshopDescription:
       "Hands-on sensor data collection with Arduino and Raspberry Pi, including sensor connection, data display, and basic interpretation.",
-    materialFile: "slides/day2-in-class.html",
+
+    materialFiles: [
+      {
+        label: "📡 IoT Lecture",
+        file: "slides/day2-iot.html"
+      },
+      {
+        label: "🤖 AI/ML Lecture",
+        file: "slides/day2-ai-ml-lecture.html"
+      }
+    ],
+
     workshopFile: "slides/day2-workshop.html"
   },
 
@@ -57,8 +71,10 @@ function setupDayPage() {
   document.getElementById("day-title").textContent = data.title;
   document.getElementById("day-intro").textContent = data.intro;
 
+  const materialButtons = document.getElementById("material-buttons");
   const materialLink = document.getElementById("material-link");
   const workshopLink = document.getElementById("workshop-link");
+
   const materialDescriptionRow = document.getElementById("material-description-row");
   const materialDescription = document.getElementById("material-description");
   const workshopDescription = document.getElementById("workshop-description");
@@ -66,22 +82,56 @@ function setupDayPage() {
   workshopLink.href = data.workshopFile;
   workshopDescription.textContent = data.workshopDescription;
 
+  /*
+    Day 1: hide in-class material.
+    Days 2–4: show in-class material.
+  */
   if (String(day) === "1") {
     materialLink.style.display = "none";
 
     if (materialDescriptionRow) {
       materialDescriptionRow.style.display = "none";
     }
-  } else {
-    materialLink.style.display = "inline-flex";
-    materialLink.href = data.materialFile;
+
+    return;
+  }
+
+  /*
+    If this day has multiple lecture files, create multiple buttons.
+    Example: Day 2 has IoT Lecture and AI/ML Lecture.
+  */
+  if (data.materialFiles && data.materialFiles.length > 0) {
+    materialLink.style.display = "none";
+
+    data.materialFiles.forEach((item) => {
+      const newButton = document.createElement("a");
+      newButton.className = "nav-button material";
+      newButton.href = item.file;
+      newButton.textContent = item.label;
+
+      materialButtons.insertBefore(newButton, workshopLink);
+    });
 
     if (materialDescriptionRow) {
       materialDescriptionRow.style.display = "list-item";
     }
 
     materialDescription.textContent = data.materialDescription;
+
+    return;
   }
+
+  /*
+    Default case: one in-class material button.
+  */
+  materialLink.style.display = "inline-flex";
+  materialLink.href = data.materialFile;
+
+  if (materialDescriptionRow) {
+    materialDescriptionRow.style.display = "list-item";
+  }
+
+  materialDescription.textContent = data.materialDescription;
 }
 
 function setupViewerPage() {
