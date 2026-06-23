@@ -1122,7 +1122,7 @@ void loop() {
   if (distance &lt; 0) {
     Serial.println(&quot;No echo&quot;);
   } else {
-    float waterLevel = TANK_HEIGHT_CM - distance;
+    float waterLevel = distance;
     if (waterLevel &lt; 0) waterLevel = 0;
 
     Serial.print(distance, 2);
