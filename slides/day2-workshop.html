@@ -802,6 +802,8 @@
         </div>
       </section>
 
+      
+
       <section>
         <h2>Data Table for Any Sensor</h2>
         <table class="data-table">
@@ -855,6 +857,357 @@
             <li>Good engineering starts with careful observation and simple experiments.</li>
           </ul>
         </div>
+      </section>
+
+
+      <section id="sensor-code-library">
+        <h2 style="font-size:1.25em; margin-bottom:8px;">Sensor Code Library</h2>
+        <div class="concept-box" style="font-size:22px; line-height:1.2; padding:14px 18px; margin:8px 0 12px 0;">
+          <p><strong>Use these slides as a code reference.</strong> Each sensor or actuator has one page with one Arduino code block.</p>
+        </div>
+        <div class="activity-box" style="font-size:20px; line-height:1.25; padding:14px 20px; margin:8px 0;">
+          <ol style="margin-top:0; margin-bottom:0;">
+            <li><a href="#/dht11-code" style="color:#2563eb; font-weight:800;">DHT11 Temperature + Humidity</a> <span style="color:#5f6f7a;">— Digital pin 4 · requires DHT library</span></li>
+<li><a href="#/par-code" style="color:#2563eb; font-weight:800;">PAR Sensor Reading</a> <span style="color:#5f6f7a;">— Analog pin A0 · example for SQ-515-style voltage output</span></li>
+<li><a href="#/ph-code" style="color:#2563eb; font-weight:800;">pH Sensor Reading</a> <span style="color:#5f6f7a;">— Analog pin A0 · two-point calibration placeholders</span></li>
+<li><a href="#/ec-code" style="color:#2563eb; font-weight:800;">EC Sensor Reading</a> <span style="color:#5f6f7a;">— Analog pin A2 · calibration placeholder</span></li>
+<li><a href="#/potassium-ise-code" style="color:#2563eb; font-weight:800;">Potassium ISE Reading</a> <span style="color:#5f6f7a;">— Analog pin A1 · log calibration with standards</span></li>
+<li><a href="#/hcsr04-code" style="color:#2563eb; font-weight:800;">HC-SR04 Ultrasonic Sensor</a> <span style="color:#5f6f7a;">— TRIG pin 7 · ECHO pin 8 · distance or water level</span></li>
+<li><a href="#/parallax-ping-code" style="color:#2563eb; font-weight:800;">Parallax PING))) Ultrasonic Sensor</a> <span style="color:#5f6f7a;">— One signal pin · trigger and echo use the same pin</span></li>
+<li><a href="#/servo-code" style="color:#2563eb; font-weight:800;">Parallax Servo Motor</a> <span style="color:#5f6f7a;">— Signal pin 9 · actuator example</span></li>
+          </ol>
+        </div>
+      </section>
+
+
+      <section id="dht11-code">
+        <h2 style="font-size:1.12em; margin-bottom:4px;">DHT11 Temperature + Humidity</h2>
+        <div class="example-box" style="font-size:18px; line-height:1.15; padding:8px 14px; margin:4px 0 8px 0;">
+          <strong>Digital pin 4 · requires DHT library</strong>
+        </div>
+        <pre style="font-size:13px; line-height:1.08; width:98%; max-height:540px; overflow:auto; margin-top:6px;"><code class="language-cpp" style="font-size:13px; line-height:1.08;">#include &lt;DHT.h&gt;
+
+#define DHTPIN 4
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  float temp = dht.readTemperature();   // degC
+  float hum  = dht.readHumidity();      // %RH
+
+  Serial.print(temp);
+  Serial.print(&quot; degC, &quot;);
+  Serial.print(hum);
+  Serial.println(&quot; RH&quot;);
+
+  delay(1000);
+}</code></pre>
+      </section>
+
+
+      <section id="par-code">
+        <h2 style="font-size:1.12em; margin-bottom:4px;">PAR Sensor Reading</h2>
+        <div class="example-box" style="font-size:18px; line-height:1.15; padding:8px 14px; margin:4px 0 8px 0;">
+          <strong>Analog pin A0 · example for SQ-515-style voltage output</strong>
+        </div>
+        <pre style="font-size:13px; line-height:1.08; width:98%; max-height:540px; overflow:auto; margin-top:6px;"><code class="language-cpp" style="font-size:13px; line-height:1.08;">const int PAR_PIN = A0;
+
+const float ADC_REF_VOLTAGE = 5.0;
+const float ADC_COUNTS = 1023.0;
+const float SQ515_CAL_FACTOR = 0.8; // umol m^-2 s^-1 per mV
+
+float readPAR(int pin) {
+  int rawADC = analogRead(pin);
+  float voltage_V = rawADC * ADC_REF_VOLTAGE / ADC_COUNTS;
+  float voltage_mV = voltage_V * 1000.0;
+  float ppfd = voltage_mV * SQ515_CAL_FACTOR;
+
+  if (ppfd &lt; 0) ppfd = 0;
+  return ppfd;
+}
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println(&quot;PPFD_umol_m2_s&quot;);
+}
+
+void loop() {
+  float ppfd = readPAR(PAR_PIN);
+  Serial.println(ppfd, 2);
+  delay(1000);
+}</code></pre>
+      </section>
+
+
+      <section id="ph-code">
+        <h2 style="font-size:1.12em; margin-bottom:4px;">pH Sensor Reading</h2>
+        <div class="example-box" style="font-size:18px; line-height:1.15; padding:8px 14px; margin:4px 0 8px 0;">
+          <strong>Analog pin A0 · two-point calibration placeholders</strong>
+        </div>
+        <pre style="font-size:13px; line-height:1.08; width:98%; max-height:540px; overflow:auto; margin-top:6px;"><code class="language-cpp" style="font-size:13px; line-height:1.08;">const int PH_PIN = A0;
+const float ADC_REF_VOLTAGE = 5.0;
+const int ADC_MAX = 1023;
+
+// Replace these using buffer-solution calibration.
+const float PH10_VOLTAGE = 2.50;  // voltage in pH 10 buffer
+const float PH4_VOLTAGE = 3.00;  // voltage in pH 4 buffer
+
+float readAverageVoltage(int pin, int samples = 20) {
+  long total = 0;
+  for (int i = 0; i &lt; samples; i++) {
+    total += analogRead(pin);
+    delay(10);
+  }
+  float avgADC = total / float(samples);
+  return avgADC * ADC_REF_VOLTAGE / ADC_MAX;
+}
+
+float calculatePH(float voltage) {
+  float slope = (4.0 - 10.0) / (PH4_VOLTAGE - PH7_VOLTAGE);
+  float intercept = 10.0 - slope * PH7_VOLTAGE;
+  return slope * voltage + intercept;
+}
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println(&quot;Voltage_V,pH_estimated&quot;);
+}
+
+void loop() {
+  float voltage = readAverageVoltage(PH_PIN);
+  float pH = calculatePH(voltage);
+
+  Serial.print(voltage, 4);
+  Serial.print(&quot;,&quot;);
+  Serial.println(pH, 2);
+  delay(1000);
+}</code></pre>
+      </section>
+
+
+      <section id="ec-code">
+        <h2 style="font-size:1.12em; margin-bottom:4px;">EC Sensor Reading</h2>
+        <div class="example-box" style="font-size:18px; line-height:1.15; padding:8px 14px; margin:4px 0 8px 0;">
+          <strong>Analog pin A2 · calibration placeholder</strong>
+        </div>
+        <pre style="font-size:13px; line-height:1.08; width:98%; max-height:540px; overflow:auto; margin-top:6px;"><code class="language-cpp" style="font-size:13px; line-height:1.08;">const int EC_PIN = A2;
+const float ADC_REF_VOLTAGE = 5.0;
+const int ADC_MAX = 1023;
+
+// Simple linear placeholder: EC = slope * voltage + intercept
+// Replace these constants after calibration with EC standards.
+const float EC_SLOPE = 1.0;
+const float EC_INTERCEPT = 0.0;
+
+float readAverageVoltage(int pin, int samples = 20) {
+  long total = 0;
+  for (int i = 0; i &lt; samples; i++) {
+    total += analogRead(pin);
+    delay(10);
+  }
+  float avgADC = total / float(samples);
+  return avgADC * ADC_REF_VOLTAGE / ADC_MAX;
+}
+
+float calculateEC(float voltage) {
+  return EC_SLOPE * voltage + EC_INTERCEPT;
+}
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println(&quot;Voltage_V,EC_estimated&quot;);
+}
+
+void loop() {
+  float voltage = readAverageVoltage(EC_PIN);
+  float ec = calculateEC(voltage);
+
+  Serial.print(voltage, 4);
+  Serial.print(&quot;,&quot;);
+  Serial.println(ec, 3);
+  delay(1000);
+}</code></pre>
+      </section>
+
+
+      <section id="potassium-ise-code">
+        <h2 style="font-size:1.12em; margin-bottom:4px;">Potassium ISE Reading</h2>
+        <div class="example-box" style="font-size:18px; line-height:1.15; padding:8px 14px; margin:4px 0 8px 0;">
+          <strong>Analog pin A1 · log calibration with standards</strong>
+        </div>
+        <pre style="font-size:13px; line-height:1.08; width:98%; max-height:540px; overflow:auto; margin-top:6px;"><code class="language-cpp" style="font-size:13px; line-height:1.08;">const int K_PIN = A1;
+const float ADC_REF_VOLTAGE = 5.0;
+const int ADC_MAX = 1023;
+
+// Replace with your measured standard-solution values.
+const float CAL_LOW_PPM = 100.0;
+const float CAL_LOW_MV = 1500.0;
+const float CAL_HIGH_PPM = 1000.0;
+const float CAL_HIGH_MV = 1560.0;
+
+float readAverageVoltage(int pin, int samples = 20) {
+  long total = 0;
+  for (int i = 0; i &lt; samples; i++) {
+    total += analogRead(pin);
+    delay(10);
+  }
+  float avgADC = total / float(samples);
+  return avgADC * ADC_REF_VOLTAGE / ADC_MAX;
+}
+
+float potassiumPPM(float mv) {
+  float slope = (CAL_HIGH_MV - CAL_LOW_MV) /
+                (log10(CAL_HIGH_PPM) - log10(CAL_LOW_PPM));
+  float intercept = CAL_LOW_MV - slope * log10(CAL_LOW_PPM);
+  return pow(10, (mv - intercept) / slope);
+}
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println(&quot;Voltage_mV,K_ppm_estimated&quot;);
+}
+
+void loop() {
+  float voltage = readAverageVoltage(K_PIN);
+  float mv = voltage * 1000.0;
+  float k = potassiumPPM(mv);
+
+  Serial.print(mv, 2);
+  Serial.print(&quot;,&quot;);
+  Serial.println(k, 2);
+  delay(1000);
+}</code></pre>
+      </section>
+
+
+      <section id="hcsr04-code">
+        <h2 style="font-size:1.12em; margin-bottom:4px;">HC-SR04 Ultrasonic Sensor</h2>
+        <div class="example-box" style="font-size:18px; line-height:1.15; padding:8px 14px; margin:4px 0 8px 0;">
+          <strong>TRIG pin 7 · ECHO pin 8 · distance or water level</strong>
+        </div>
+        <pre style="font-size:13px; line-height:1.08; width:98%; max-height:540px; overflow:auto; margin-top:6px;"><code class="language-cpp" style="font-size:13px; line-height:1.08;">const int TRIG_PIN = 7;
+const int ECHO_PIN = 8;
+const float TANK_HEIGHT_CM = 30.0;
+
+float measureDistanceCM() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+  if (duration == 0) return -1;
+
+  // speed of sound: 0.0343 cm/us; divide by 2 for round trip
+  return duration * 0.0343 / 2.0;
+}
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  Serial.println(&quot;Distance_cm,Water_Level_cm&quot;);
+}
+
+void loop() {
+  float distance = measureDistanceCM();
+
+  if (distance &lt; 0) {
+    Serial.println(&quot;No echo&quot;);
+  } else {
+    float waterLevel = TANK_HEIGHT_CM - distance;
+    if (waterLevel &lt; 0) waterLevel = 0;
+
+    Serial.print(distance, 2);
+    Serial.print(&quot;,&quot;);
+    Serial.println(waterLevel, 2);
+  }
+  delay(1000);
+}</code></pre>
+      </section>
+
+
+      <section id="parallax-ping-code">
+        <h2 style="font-size:1.12em; margin-bottom:4px;">Parallax PING))) Ultrasonic Sensor</h2>
+        <div class="example-box" style="font-size:18px; line-height:1.15; padding:8px 14px; margin:4px 0 8px 0;">
+          <strong>One signal pin · trigger and echo use the same pin</strong>
+        </div>
+        <pre style="font-size:13px; line-height:1.08; width:98%; max-height:540px; overflow:auto; margin-top:6px;"><code class="language-cpp" style="font-size:13px; line-height:1.08;">const int PING_PIN = 7;
+const float TANK_HEIGHT_CM = 30.0;
+
+float measureDistanceCM() {
+  pinMode(PING_PIN, OUTPUT);
+  digitalWrite(PING_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(PING_PIN, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(PING_PIN, LOW);
+
+  pinMode(PING_PIN, INPUT);
+  long duration = pulseIn(PING_PIN, HIGH, 30000);
+  if (duration == 0) return -1;
+
+  return duration * 0.0343 / 2.0;
+}
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println(&quot;Distance_cm,Water_Level_cm&quot;);
+}
+
+void loop() {
+  float distance = measureDistanceCM();
+
+  if (distance &lt; 0) {
+    Serial.println(&quot;No echo&quot;);
+  } else {
+    Serial.print(distance, 2);
+    Serial.print(&quot;,&quot;);
+    Serial.println(cm);
+  }
+  delay(1000);
+}</code></pre>
+      </section>
+
+
+      <section id="servo-code">
+        <h2 style="font-size:1.12em; margin-bottom:4px;">Parallax Servo Motor</h2>
+        <div class="example-box" style="font-size:18px; line-height:1.15; padding:8px 14px; margin:4px 0 8px 0;">
+          <strong>Signal pin 9 · actuator example</strong>
+        </div>
+        <pre style="font-size:13px; line-height:1.08; width:98%; max-height:540px; overflow:auto; margin-top:6px;"><code class="language-cpp" style="font-size:13px; line-height:1.08;">#include &lt;Servo.h&gt;
+
+Servo myServo;
+const int SERVO_PIN = 9;
+
+void setup() {
+  myServo.attach(SERVO_PIN);
+}
+
+void loop() {
+  // Move from 0 degrees to 180 degrees
+  for (int angle = 0; angle &lt;= 180; angle += 5) {
+    myServo.write(angle);
+    delay(100);
+  }
+
+  delay(500);
+
+  // Move back from 180 degrees to 0 degrees
+  for (int angle = 180; angle &gt;= 0; angle -= 5) {
+    myServo.write(angle);
+    delay(100);
+  }
+
+  delay(500);
+}</code></pre>
       </section>
 
     </div>
