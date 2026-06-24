@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AIFS Summer Camp - Presentation Requirements</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      color: #1f2933;
+      background:
+        linear-gradient(135deg, rgba(18, 53, 36, 0.92), rgba(47, 133, 90, 0.82)),
+        url("../images/background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 42px 18px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 1050px;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 28px;
+      padding: 48px;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.22);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #2f855a;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      color: #123524;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+    }
+
+    .subtitle {
+      max-width: 820px;
+      margin: 20px auto 34px;
+      text-align: center;
+      color: #5f6f7a;
+      font-size: 1.16rem;
+      line-height: 1.7;
+    }
+
+    .section {
+      margin: 24px 0;
+      padding: 24px;
+      border-radius: 18px;
+      background: #f4fbf7;
+      border-left: 8px solid #2f855a;
+    }
+
+    .section.orange {
+      background: #fff7ed;
+      border-left-color: #f97316;
+    }
+
+    .section.purple {
+      background: #f5f3ff;
+      border-left-color: #7c3aed;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #123524;
+    }
+
+    li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .time-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .time-card {
+      background: white;
+      border: 2px solid #d5eee1;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .time-card strong {
+      display: block;
+      color: #123524;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .back-button {
+      display: inline-flex;
+      margin-top: 28px;
+      padding: 15px 24px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .button-wrap {
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      .card {
+        padding: 34px 22px;
+      }
+
+      .time-box {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="card">
+
+      <p class="eyebrow">AIFS Summer Camp</p>
+      <h1>Presentation Requirements</h1>
+
+      <p class="subtitle">
+        For the final presentation, your team will propose an idea that uses
+        machine learning, computer vision, IoT, or a combination of these tools
+        for controlled environment agriculture.
+      </p>
+
+      <div class="section">
+        <h2>Presentation Goal</h2>
+        <p>
+          The goal is not to show perfect results. Instead, your team should
+          explain a thoughtful project idea and describe how you would approach
+          the problem using the tools introduced during the camp.
+        </p>
+      </div>
+
+      <div class="section orange">
+        <h2>Time Requirement</h2>
+
+        <div class="time-box">
+          <div class="time-card">
+            <strong>8 min</strong>
+            Team Presentation
+          </div>
+
+          <div class="time-card">
+            <strong>5 min</strong>
+            Questions and Answers
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>What Your Team Should Include</h2>
+        <ul>
+          <li><strong>Project idea:</strong> What problem or opportunity in greenhouse or indoor farming do you want to explore?</li>
+          <li><strong>Motivation:</strong> Why does this problem matter for plants, growers, automation, or sustainability?</li>
+          <li><strong>Data source:</strong> What kind of data would you need? Examples include images, sensor readings, light measurements, climate data, or nutrient data.</li>
+          <li><strong>Method:</strong> What approach would you try? Examples include machine learning, computer vision, IoT sensing, sensor dashboards, object detection, classification, or simple control logic.</li>
+          <li><strong>Expected workflow:</strong> What steps would your team follow from data collection to analysis?</li>
+          <li><strong>Expected outcome:</strong> What would success look like, even if you do not have final results?</li>
+          <li><strong>Challenges:</strong> What could make the project difficult? Examples include lighting changes, noisy sensors, limited data, camera placement, or labeling effort.</li>
+        </ul>
+      </div>
+
+      <div class="section purple">
+        <h2>Suggested Presentation Structure</h2>
+        <ol>
+          <li><strong>Title and team members</strong></li>
+          <li><strong>Problem statement</strong></li>
+          <li><strong>Why the problem matters in CEA</strong></li>
+          <li><strong>Data you would collect</strong></li>
+          <li><strong>ML / CV / IoT approach you would use</strong></li>
+          <li><strong>Expected workflow or system diagram</strong></li>
+          <li><strong>Possible challenges and limitations</strong></li>
+          <li><strong>Conclusion and next steps</strong></li>
+        </ol>
+      </div>
+
+      <div class="section">
+        <h2>Important Notes</h2>
+        <ul>
+          <li>No final experimental results are required.</li>
+          <li>Your team should focus on clear thinking, realistic methods, and a well-explained workflow.</li>
+          <li>Use diagrams, sketches, images, or example data if they help explain your idea.</li>
+          <li>Every team member should be ready to answer questions.</li>
+        </ul>
+      </div>
+
+      <div class="button-wrap">
+        <a href="../day.html?day=4" class="back-button">🔙 Back to Day 4</a>
+      </div>
+
+    </section>
+  </main>
+</body>
+</html>

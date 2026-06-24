@@ -4,7 +4,6 @@ const dayData = {
     intro: "Welcome to Day 1 of AIFS Summer Camp. Choose the learning resource you want to open.",
     workshopDescription:
       "Interactive facility exploration where students observe plant growth systems, ask questions, and identify key components used in indoor farming.",
-    materialFile: "slides/day1-in-class.pdf",
     workshopFile: "slides/day1-workshop/"
   },
 
@@ -18,7 +17,7 @@ const dayData = {
     workshopDescription:
       "Hands-on sensor data collection with Arduino and Raspberry Pi, including sensor connection, data display, and basic interpretation.",
 
-    materialFiles: [
+    materialFile: [
       {
         label: "📡 IoT Lecture",
         file: "slides/day2-iot.html"
@@ -35,10 +34,13 @@ const dayData = {
   3: {
     title: "Imaging Systems in Greenhouse",
     intro: "Welcome to Day 3 of AIFS Summer Camp. Choose the learning resource you want to open.",
+
     materialDescription:
-      "Introduction to imaging systems, machine vision, and how image analysis can be used to monitor plant growth, detect stress, and support automated farming.",
+      "Two lecture modules are provided: one on Python basics and one on computer vision for greenhouse imaging systems.",
+
     workshopDescription:
       "Hands-on Raspberry Pi camera activity where students capture plant images and explore basic image-based plant monitoring.",
+
     materialFile: [
       {
         label: "🐍 Python Lecture",
@@ -49,23 +51,37 @@ const dayData = {
         file: "slides/day3-cv.html"
       }
     ],
+
     workshopFile: "slides/day3-workshop.html"
   },
 
   4: {
     title: "Artificial Lighting and Imaging in the CEA",
     intro: "Welcome to Day 4 of AIFS Summer Camp. Choose the learning resource you want to open.",
+
     materialDescription:
       "Introduction to plant-lighting concepts, including daily light integral, photosynthetic photon flux density, light-use efficiency, and lighting applications in computer vision.",
+
     workshopDescription:
       "Hands-on computer vision image training with experimental data for controlled environment agriculture applications.",
-    materialFile: [
+
+    materialFile: "slides/day4-in-class.html",
+
+    workshopFile: "slides/day4-workshop.html",
+
+    extraButtons: [
       {
-        label: "💡 Lighting Lecture",
-        file: "slides/day4-in-class.html"
+        label: "📋 Presentation Requirements",
+        file: "pages/presentation-requirements.html",
+        className: "requirements"
+      },
+      {
+        label: "📝 Presentation Submission Form",
+        file: "YOUR_GOOGLE_SHEET_OR_FORM_LINK_HERE",
+        className: "submission",
+        external: true
       }
-    ],
-    workshopFile: "slides/day4-workshop.html"
+    ]
   }
 };
 
@@ -103,12 +119,10 @@ function setupDayPage() {
     if (materialDescriptionRow) {
       materialDescriptionRow.style.display = "none";
     }
-
-    return;
   }
 
   // Days with multiple lecture buttons
-  if (Array.isArray(data.materialFile)) {
+  else if (Array.isArray(data.materialFile)) {
     materialLink.style.display = "none";
 
     data.materialFile.forEach((item) => {
@@ -125,19 +139,36 @@ function setupDayPage() {
     }
 
     materialDescription.textContent = data.materialDescription;
-
-    return;
   }
 
-  // Default: days with one lecture button
-  materialLink.style.display = "inline-flex";
-  materialLink.href = data.materialFile;
+  // Default: one in-class material button
+  else {
+    materialLink.style.display = "inline-flex";
+    materialLink.href = data.materialFile;
 
-  if (materialDescriptionRow) {
-    materialDescriptionRow.style.display = "list-item";
+    if (materialDescriptionRow) {
+      materialDescriptionRow.style.display = "list-item";
+    }
+
+    materialDescription.textContent = data.materialDescription;
   }
 
-  materialDescription.textContent = data.materialDescription;
+  // Extra buttons, such as Day 4 presentation requirements and submission form
+  if (data.extraButtons && data.extraButtons.length > 0) {
+    data.extraButtons.forEach((item) => {
+      const extraButton = document.createElement("a");
+      extraButton.className = `nav-button ${item.className}`;
+      extraButton.href = item.file;
+      extraButton.textContent = item.label;
+
+      if (item.external) {
+        extraButton.target = "_blank";
+        extraButton.rel = "noopener noreferrer";
+      }
+
+      materialButtons.appendChild(extraButton);
+    });
+  }
 }
 
 function setupViewerPage() {
