@@ -77,7 +77,7 @@ const dayData = {
       },
       {
         label: "📝 Presentation Submission Form",
-        file: "YOUR_GOOGLE_SHEET_OR_FORM_LINK_HERE",
+        file: "https://docs.google.com/spreadsheets/d/1GgfY0lB00i0RW4WbU8QbY_wLzvu4hRx7iBsUBRKklbo/edit?usp=sharing",
         className: "submission",
         external: true
       }
