@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIFS Day 3 Workshop: Raspberry Pi Camera → Pretrained YOLO</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+  <style>
+    :root{--aifs-green:#2f7d32;--aifs-blue:#1565c0;--aifs-dark:#123021;--soft:#f5f8f4;--line:#cfd8dc;--orange:#f57c00;}
+    .reveal{font-family: Arial, Helvetica, sans-serif; color:#17211b;}
+    .reveal h1,.reveal h2,.reveal h3{color:var(--aifs-dark); letter-spacing:-0.02em;}
+    .reveal h1{font-size:2.0em;}.reveal h2{font-size:1.42em;}.reveal h3{font-size:1.0em;}
+    .subtitle{font-size:0.64em; color:#3e5547; margin-top:0.4em;}
+    .small{font-size:0.62em; line-height:1.25;}.dense{font-size:0.56em; line-height:1.18;}.tiny{font-size:0.44em; line-height:1.12;}
+    .two-col{display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center;}
+    .two-col-wide{display:grid; grid-template-columns:1.15fr 0.85fr; gap:28px; align-items:center;}
+    .three-col{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:stretch;}
+    .concept-box{background:var(--soft); border-left:7px solid var(--aifs-green); padding:18px 22px; border-radius:14px; text-align:left; font-size:0.70em; line-height:1.24;}
+    .orange-box{background:#fff7ed; border-left:7px solid var(--orange); padding:16px 20px; border-radius:14px; text-align:left; font-size:0.60em; line-height:1.2;}
+    .code-note{background:#111827; color:#eef5ee; border-radius:14px; padding:14px 18px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; text-align:left; font-size:0.41em; line-height:1.16; box-shadow:0 8px 20px rgba(0,0,0,0.14);}
+    .mini-card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 16px; text-align:left; box-shadow:0 4px 14px rgba(0,0,0,0.05); font-size:0.56em; line-height:1.2;}
+    .mini-card strong{color:var(--aifs-blue);}
+    .button{display:inline-block; background:var(--aifs-blue); color:white !important; padding:12px 18px; border-radius:999px; font-size:0.52em; margin:8px 6px; text-decoration:none;}
+    .button.green{background:var(--aifs-green);}.button.orange{background:var(--orange);}
+    .placeholder{border:2px dashed #9eaaa3; background:linear-gradient(135deg,#f3f6f4,#e9f0ec); color:#496154; min-height:240px; border-radius:18px; display:flex; align-items:center; justify-content:center; text-align:center; padding:18px; font-size:0.60em;}
+    .pipeline{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:14px;}
+    .step{background:#eef6f1; border:1px solid #bfd7c8; border-radius:16px; padding:16px 10px; font-size:0.50em; line-height:1.12; min-height:95px; display:flex; align-items:center; justify-content:center; flex-direction:column;}
+    .step .num{font-weight:800; color:var(--aifs-green); font-size:1.2em; margin-bottom:6px;}
+    .warn{background:#fff8e1; border-left:7px solid #f9a825; padding:14px 18px; border-radius:14px; text-align:left; font-size:0.56em; line-height:1.2;}
+    .file-list a{display:block; margin:6px 0; color:#0b57d0; font-size:0.56em;}
+    pre{width:100%; box-shadow:none !important;}.reveal pre code{max-height:420px; font-size:0.78em; line-height:1.16; border-radius:14px;}
+  </style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section>
+  <h1>Workshop: Raspberry Pi Camera → Pretrained YOLO Detection</h1>
+  <p class="subtitle">Capture classroom images and run object detection without labeling or training</p>
+  <div>
+  </div>
+</section>
+
+<section>
+  <h2>Download the Workshop Files</h2>
+  <div class="two-col-wide">
+    <div class="concept-box">
+      <p><strong>Use these files during the workshop.</strong></p>
+      <p>They include Raspberry Pi capture commands, Raspberry Pi YOLOv4-tiny pretrained detection code, PC/Colab YOLOv8 pretrained detection code, and a Colab notebook.</p>
+      <p class="dense"><strong>No labeling is needed today.</strong> We use pretrained YOLO models that already know common object categories.</p>
+      <a class="button green" href="./aifs_day3_yolo_workshop_pretrained.zip" download>Download all workshop code</a>
+    </div>
+    <div class="mini-card file-list">
+      <strong>Individual files</strong>
+      <a href="./scripts/rpi_capture_commands.md" download>Raspberry Pi camera commands</a>
+      <a href="./scripts/capture_images_rpi.sh" download>capture_images_rpi.sh</a>
+      <a href="./rpi_pretrained_yolov4_tiny/README_pretrained_yolov4_tiny_rpi.md" download>RPi pretrained YOLOv4-tiny guide</a>
+      <a href="./rpi_pretrained_yolov4_tiny/detect_yolov4_tiny_rpi.py" download>detect_yolov4_tiny_rpi.py</a>
+      <a href="./pc_pretrained_yolov8/detect_one_image_yolov8_pretrained.py" download>PC YOLOv8 one-image script</a>
+      <a href="./notebooks/pretrained_yolo_pc_colab.ipynb" download>pretrained_yolo_pc_colab.ipynb</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Today’s No-Label Pipeline</h2>
+  <div class="pipeline">
+    <div class="step"><div class="num">1</div>Test camera<br><code>rpicam-hello</code></div>
+    <div class="step"><div class="num">2</div>Capture classroom<br>object images</div>
+    <div class="step"><div class="num">3</div>Run pretrained<br>YOLOv4-tiny on RPi</div>
+    <div class="step"><div class="num">4</div>Run pretrained<br>YOLOv8 on PC/Colab</div>
+    <div class="step"><div class="num">5</div>Save annotated<br>detection image</div>
+  </div>
+  <div class="warn" style="margin-top:24px;">
+    This is not real-time lettuce detection and not custom training. We are using ordinary classroom objects and pretrained YOLO models, so students can focus on the camera → image → detector pipeline.
+  </div>
+</section>
+
+<section>
+  <h2>Pretrained YOLO: What Does It Know?</h2>
+  <div class="two-col-wide">
+    <div class="concept-box dense">
+      <p><strong>Pretrained model:</strong> a model that was already trained on a large dataset before class.</p>
+      <p>Today, we use COCO-style object categories such as <code>person</code>, <code>bottle</code>, <code>cup</code>, <code>chair</code>, <code>book</code>, <code>laptop</code>, <code>keyboard</code>, and <code>cell phone</code>.</p>
+      <p><strong>Important:</strong> if an object is not part of the pretrained class list, the model may ignore it or call it something similar.</p>
+    </div>
+    <div class="image-card">
+      <img src="../images/yolo-labels.png" alt="COCO dataset object classes" style="width: 100%; max-height: 320px; object-fit: contain; border-radius: 12px;">
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Step 1 — Test the Raspberry Pi Camera</h2>
+  <div class="two-col">
+    <div>
+      <pre><code class="language-bash"># On Raspberry Pi Zero 2 W
+rpicam-hello -t 5000</code></pre>
+      <div class="concept-box dense">
+        <p><strong>What this does:</strong> opens a short camera preview so we know the camera cable, OS camera stack, and sensor are working.</p>
+        <p><strong>Legacy OS fallback:</strong> if <code>rpicam-hello</code> is not available, try <code>libcamera-hello -t 5000</code>.</p>
+      </div>
+    </div>
+    <div class="placeholder">Placeholder image: successful camera preview showing a classroom table</div>
+  </div>
+</section>
+
+<section>
+  <h2>Step 2 — Capture One or More Images</h2>
+  <pre><code class="language-bash">mkdir -p ~/aifs_classroom_yolo/images
+
+# Capture one classroom image
+rpicam-still -o ~/aifs_classroom_yolo/images/classroom_001.jpg \
+  --width 1280 --height 720 --timeout 1000 --nopreview
+
+# Optional: capture 20 images
+for i in $(seq -w 1 20); do
+  rpicam-still -o ~/aifs_classroom_yolo/images/classroom_${i}.jpg \
+    --width 1280 --height 720 --timeout 1000 --nopreview
+  sleep 2
+done</code></pre>
+  <p class="small">Good demo objects: bottle, cup, chair, book, laptop, keyboard, backpack, cell phone, or person.</p>
+</section>
+
+<section>
+  <h2>Step 3 — RPi Local Detection First: YOLOv4-tiny</h2>
+  <div class="two-col-wide">
+    <div class="concept-box dense">
+      <p><strong>Why YOLOv4-tiny on the Pi?</strong> Raspberry Pi Zero 2 W is small and slow compared with a laptop GPU. YOLOv4-tiny is lighter than full YOLO models and can run single-image detection using OpenCV DNN.</p>
+      <p><strong>No training. No labels.</strong> We download pretrained COCO weights and run inference locally on the Raspberry Pi.</p>
+    </div>
+    <div class="placeholder">Placeholder image: terminal on Raspberry Pi running pretrained YOLOv4-tiny detection</div>
+  </div>
+</section>
+
+<section>
+  <h2>RPi Setup for Pretrained YOLOv4-tiny</h2>
+  <pre><code class="language-bash">sudo apt update
+sudo apt install -y python3-opencv python3-numpy wget
+
+cd ~/aifs_day3_yolo_workshop_pretrained/rpi_pretrained_yolov4_tiny
+bash download_yolov4_tiny_assets.sh</code></pre>
+  <div class="warn">
+    If the Pi has no internet, run <code>download_yolov4_tiny_assets.sh</code> on a laptop, then copy the <code>models/</code> folder to the Raspberry Pi.
+  </div>
+</section>
+
+<section>
+  <h2>RPi Run Detection on One Image</h2>
+  <pre><code class="language-bash">cd ~/aifs_day3_yolo_workshop_pretrained/rpi_pretrained_yolov4_tiny
+
+python3 detect_yolov4_tiny_rpi.py \
+  --image ~/aifs_classroom_yolo/images/classroom_001.jpg \
+  --output yolo_results/classroom_001_detected.jpg \
+  --conf 0.25</code></pre>
+  <div class="two-col" style="margin-top:14px;">
+    <div class="mini-card"><strong>Input</strong><br>One classroom photo captured by the Raspberry Pi camera.</div>
+    <div class="mini-card"><strong>Output</strong><br>One saved image with predicted boxes, class names, and confidence scores.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Step 4 — PC / Colab Detection with YOLOv8</h2>
+  <div class="two-col-wide">
+    <div>
+      <pre><code class="language-python">from ultralytics import YOLO
+
+model = YOLO("yolov8n.pt")  # pretrained model
+results = model.predict(
+    source="classroom_001.jpg",
+    conf=0.25,
+    imgsz=640,
+    save=True
+)</code></pre>
+      <a class="button" href="./aifs_day3_yolo_workshop_pretrained/aifs_day3_yolo_workshop_pretrained/notebooks/pretrained_yolo_pc_colab.ipynb" download>Download Colab notebook</a>
+    </div>
+    <div class="concept-box dense">
+      <p><strong>Why also use a PC or Colab?</strong> It is faster and easier for visualization. Ultralytics automatically downloads the pretrained model the first time you run it.</p>
+      <p>This version also uses pretrained classes, so students still do not need labels.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>PC Script Version</h2>
+  <div class="two-col-wide">
+    <div class="code-note">
+      MODEL_PATH = "yolov8n.pt"<br>
+      IMAGE_PATH = "classroom_001.jpg"<br><br>
+      model = YOLO(MODEL_PATH)<br>
+      results = model.predict(<br>
+      &nbsp;&nbsp;source=IMAGE_PATH,<br>
+      &nbsp;&nbsp;conf=0.25,<br>
+      &nbsp;&nbsp;imgsz=640,<br>
+      &nbsp;&nbsp;save=False<br>
+      )<br><br>
+      annotated_image = results[0].plot()<br>
+      cv2.imwrite("yolo_results/classroom_001_detected.jpg", annotated_image)
+    </div>
+    <div>
+      <div class="placeholder" style="min-height:220px;">Placeholder image: original classroom photo → detected image with boxes</div>
+      <a class="button green" href="./aifs_day3_yolo_workshop_pretrained/aifs_day3_yolo_workshop_pretrained/scripts/detect_one_image_yolov8_pretrained.py" download>Download PC one-image script</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What If We Actually Wanted to Train?</h2>
+  <div class="orange-box" style="font-size:0.4em;">
+    <p><strong>Training a custom detector is a different workflow.</strong></p>
+    <p>To detect new categories that the pretrained model does not know, we would need many images, bounding-box labels, a train/validation split, and a training computer.</p>
+    <p>For this short workshop, we skip custom training so students can finish the full camera-to-detection pipeline quickly.</p>
+  </div>
+  <div class="image-card">
+    <img 
+      src="../images/workflow.png"
+      alt="YOLO training pipeline diagram"
+      style="width: 100%; max-height: 320px; object-fit: contain; border-radius: 12px;"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+  </div>
+</section>
+
+<section>
+  <h2>Workshop Checklist</h2>
+  <div class="concept-box" style="font-size:0.76em;">
+    <p>□ Camera preview works with <code>rpicam-hello</code></p>
+    <p>□ One classroom image is captured with <code>rpicam-still</code></p>
+    <p>□ Pretrained YOLOv4-tiny assets are downloaded or copied to the Raspberry Pi</p>
+    <p>□ Raspberry Pi local detection saves an annotated image</p>
+    <p>□ The same image is tested on PC / Colab using pretrained YOLOv8</p>
+    <p>□ Students understand the difference between pretrained inference and custom training</p>
+  </div>
+  <a class="button green" href="./aifs_day3_yolo_workshop_pretrained/aifs_day3_yolo_workshop_pretrained.zip" download>Download all workshop code</a>
+</section>
+
+<section>
+  <h2>Want More Real Data?</h2>
+  <div class="two-col-wide">
+    <div class="concept-box">
+      <p><strong>Kaggle is a good place to explore real datasets.</strong></p>
+      <p>Students who want to keep practicing can search for object detection, plant images, traffic signs, animals, medical images, satellite images, and many other datasets.</p>
+      <p><a href="https://www.kaggle.com/datasets" target="_blank">https://www.kaggle.com/datasets</a></p>
+      <p class="dense">Reminder: always check the dataset license and citation requirements before using data in a project.</p>
+    </div>
+      <div class="image-card card">
+      <img 
+        src="../images/kaggle-dataset.png"
+        alt="Kaggle dataset page example"
+        style="width: 100%; max-height: 420px; object-fit: contain; border-radius: 12px;"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+    </div>
+</section>
+
+<section>
+  <h2>References</h2>
+  <div class="mini-card dense">
+    <p>Raspberry Pi camera software documentation: <code>rpicam-hello</code> and <code>rpicam-still</code>.</p>
+    <p>Ultralytics YOLO documentation: pretrained model loading and prediction.</p>
+    <p>YOLOv4 / YOLOv4-tiny Darknet resources and pretrained COCO weights.</p>
+    <p>Kaggle Datasets for students who want to explore real datasets after the workshop.</p>
+  </div>
+</section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script>Reveal.initialize({hash:true,slideNumber:true,plugins:[RevealHighlight]});</script>
+</body>
+</html>

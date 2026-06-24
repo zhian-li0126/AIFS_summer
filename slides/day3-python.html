@@ -1,0 +1,1173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AIFS Summer Camp Day 3 — Python Basics</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+
+  <style>
+    :root {
+      --aifs-green: #19785a;
+      --aifs-light: #e8f6ef;
+      --aifs-blue: #0c5fa8;
+      --aifs-orange: #f39c12;
+      --aifs-red: #c0392b;
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --panel: #ffffff;
+      --shadow: 0 12px 28px rgba(31, 41, 55, 0.16);
+    }
+
+    .reveal {
+      font-family: "Aptos", "Segoe UI", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+    }
+
+    .reveal h1, .reveal h2, .reveal h3 {
+      color: #0f3f31;
+      letter-spacing: -0.02em;
+      text-transform: none;
+    }
+
+    .reveal h1 { font-size: 2.35em; }
+    .reveal h2 { font-size: 1.55em; margin-bottom: 0.35em; }
+    .reveal h3 { font-size: 1.05em; }
+    .reveal p, .reveal li { font-size: 0.84em; line-height: 1.25; }
+    .reveal small { color: var(--muted); }
+
+    .subtitle {
+      font-size: 0.9em;
+      color: var(--muted);
+      margin-top: 0.35em;
+    }
+
+    .tagline {
+      display: inline-block;
+      padding: 0.28em 0.65em;
+      border-radius: 999px;
+      background: var(--aifs-light);
+      color: var(--aifs-green);
+      font-size: 0.58em;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75em;
+      align-items: stretch;
+    }
+
+    .two-col-wide {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 0.75em;
+      align-items: stretch;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.55em;
+      align-items: stretch;
+    }
+
+    .concept-box, .example-box, .activity-box, .warning-box, .mini-card, .code-note {
+      background: var(--panel);
+      border-radius: 18px;
+      padding: 0.72em;
+      box-shadow: var(--shadow);
+      border-left: 8px solid var(--aifs-green);
+      text-align: left;
+      font-size: 0.8em;
+      line-height: 1.22;
+    }
+
+    .example-box { border-left-color: var(--aifs-blue); background: #eef6ff; }
+    .activity-box { border-left-color: var(--aifs-orange); background: #fff7e6; }
+    .warning-box { border-left-color: var(--aifs-red); background: #fff1f0; }
+    .mini-card { border-left-width: 0; border-top: 6px solid var(--aifs-green); }
+    .code-note { border-left-color: #6b7280; background: #f6f7fb; font-size: 0.72em; }
+
+    .concept-box p, .concept-box li,
+    .example-box p, .example-box li,
+    .activity-box p, .activity-box li,
+    .warning-box p, .warning-box li,
+    .mini-card p, .mini-card li,
+    .code-note p, .code-note li {
+      font-size: 0.92em;
+      line-height: 1.22;
+    }
+
+    .compact { font-size: 0.72em !important; }
+    .tiny { font-size: 0.64em !important; }
+    .center { text-align: center; }
+    .left { text-align: left; }
+    .muted { color: var(--muted); }
+    .green { color: var(--aifs-green); font-weight: 800; }
+    .blue { color: var(--aifs-blue); font-weight: 800; }
+    .orange { color: var(--aifs-orange); font-weight: 800; }
+
+    .hero {
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1fr 0.85fr;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .hero-visual {
+      min-height: 360px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.75), transparent 24%),
+        linear-gradient(145deg, #d7f9e8, #dff0ff 45%, #fff7d9);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .emoji-big { font-size: 5.2em; line-height: 1; }
+    .emoji-mid { font-size: 2.4em; line-height: 1; }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3em;
+      margin-top: 0.2em;
+      flex-wrap: wrap;
+    }
+
+    .flow-item {
+      background: white;
+      border-radius: 16px;
+      padding: 0.48em 0.65em;
+      box-shadow: 0 8px 18px rgba(31, 41, 55, 0.12);
+      font-weight: 700;
+      font-size: 0.64em;
+    }
+
+    .arrow { font-size: 1em; color: var(--aifs-green); font-weight: 900; }
+
+    .reveal pre {
+      margin: 0.35em auto;
+      width: 100%;
+      box-shadow: var(--shadow);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .reveal pre code {
+      font-size: 0.68em;
+      line-height: 1.22;
+      max-height: 430px;
+      border-radius: 14px;
+      padding: 1em;
+    }
+
+    .small-code pre code { font-size: 0.58em; max-height: 460px; }
+    .micro-code pre code { font-size: 0.50em; max-height: 460px; }
+
+    .big-question {
+      font-size: 1.6em;
+      line-height: 1.05;
+      font-weight: 900;
+      color: #0f3f31;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.35em;
+      margin-top: 0.8em;
+    }
+
+    .time-step {
+      background: #f9fafb;
+      border-radius: 14px;
+      padding: 0.55em 0.4em;
+      border-top: 5px solid var(--aifs-green);
+      box-shadow: 0 5px 14px rgba(31, 41, 55, 0.10);
+      font-size: 0.58em;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.62em;
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .data-table th {
+      background: var(--aifs-green);
+      color: white;
+      padding: 0.45em;
+    }
+
+    .data-table td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0.42em;
+      text-align: center;
+    }
+
+    .bar-wrap {
+      display: grid;
+      gap: 0.38em;
+      margin-top: 0.45em;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 1.2fr 3fr 0.5fr;
+      align-items: center;
+      gap: 0.35em;
+      font-size: 0.58em;
+    }
+
+    .bar {
+      height: 24px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #19785a, #7dd3fc);
+    }
+
+    .demo-output {
+      background: #0b1020;
+      color: #d1fae5;
+      border-radius: 14px;
+      padding: 0.65em;
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      font-size: 0.62em;
+      text-align: left;
+      box-shadow: var(--shadow);
+      white-space: pre-wrap;
+    }
+
+    .slide-footer {
+      position: absolute;
+      bottom: 10px;
+      left: 18px;
+      font-size: 0.36em;
+      color: #9ca3af;
+    }
+
+    .quote {
+      font-size: 1.1em;
+      line-height: 1.25;
+      font-weight: 700;
+      color: #0f3f31;
+    }
+
+    .question-list li { margin-bottom: 0.32em; }
+
+    @media print {
+      .slide-footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section>
+    <div class="hero">
+      <div class="left">
+        <span class="tagline">AIFS Summer Camp · Day 3 · Lecture 1</span>
+        <h1>Python Basics for Greenhouse Data</h1>
+        <p class="subtitle">A beginner-friendly coding lecture for Google Colab: from first line of Python to analyzing sensor readings.</p>
+        <div class="flow">
+          <div class="flow-item">Sensors</div><div class="arrow">→</div>
+          <div class="flow-item">Python</div><div class="arrow">→</div>
+          <div class="flow-item">Plots</div><div class="arrow">→</div>
+          <div class="flow-item">Decisions</div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="center">
+          <div class="emoji-big">🐍🌱📊</div>
+          <p><strong>Code turns raw numbers into insight.</strong></p>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">Timing: 2 minutes. Welcome students and explain that they will type along in Colab.</aside>
+  </section>
+
+  <section>
+    <h2>Today’s Goal</h2>
+    <div class="two-col-wide">
+      <div class="concept-box">
+        <p>By the end of this lecture, you should be able to open Google Colab, write basic Python code, store sensor readings in variables, use conditions, repeat actions with loops, write a simple function, and make your first plot.</p>
+        <p>We will use greenhouse examples throughout: temperature, humidity, light, and plant-health decisions.</p>
+      </div>
+      <div class="activity-box compact">
+        <h3>Lecture flow</h3>
+        <ol>
+          <li>Why programming?</li>
+          <li>Why Python and Colab?</li>
+          <li>First Python commands</li>
+          <li>Variables, types, and decisions</li>
+          <li>Lists, loops, functions</li>
+          <li>Mini greenhouse data analysis</li>
+        </ol>
+      </div>
+    </div>
+    <aside class="notes">Timing: 1 minute. Frame this as a guided coding session, not a memorization lecture.</aside>
+  </section>
+
+  <section>
+    <h2>Why Learn Programming?</h2>
+    <div class="two-col">
+      <div class="concept-box compact">
+        <h3>Programming is a tool</h3>
+        <p>A spreadsheet is great for small, clean tables. Programming helps when data becomes large, repetitive, messy, or needs to connect with sensors, cameras, cloud files, or AI models.</p>
+        <p>In research and engineering, the exact tool you need often does not already exist. Programming lets you build it.</p>
+      </div>
+      <div class="example-box compact">
+        <h3>Greenhouse examples</h3>
+        <ul>
+          <li>Read 10,000 sensor measurements.</li>
+          <li>Remove impossible values.</li>
+          <li>Plot temperature over time.</li>
+          <li>Alert when humidity is too low.</li>
+          <li>Train an AI model to classify plant images.</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="notes">Timing: 3 minutes. Ask students what repetitive tasks they have seen in school, lab, or life.</aside>
+  </section>
+
+  <section>
+    <h2>Programming Helps You Think Like a Problem Solver</h2>
+    <div class="three-col">
+      <div class="mini-card center">
+        <div class="emoji-mid">🧩</div>
+        <h3>Break down problems</h3>
+        <p>Large task → small steps.</p>
+      </div>
+      <div class="mini-card center">
+        <div class="emoji-mid">🔁</div>
+        <h3>Automate repetition</h3>
+        <p>One instruction → thousands of actions.</p>
+      </div>
+      <div class="mini-card center">
+        <div class="emoji-mid">📈</div>
+        <h3>Explore data</h3>
+        <p>Numbers → patterns → decisions.</p>
+      </div>
+    </div>
+    <div class="activity-box compact" style="margin-top:0.65em;">
+      <strong>Think-pair-share:</strong> If a greenhouse has 6 sensors recording every minute, what can a human do easily? What should a computer do?
+    </div>
+    <aside class="notes">Timing: 3 minutes. Have students give examples: repeated calculations, plotting, alerts.</aside>
+  </section>
+
+  <section>
+    <h2>From Greenhouse Data to Action</h2>
+    <div class="flow" style="margin-top:1em;">
+      <div class="flow-item">Measure<br>🌡️</div><div class="arrow">→</div>
+      <div class="flow-item">Store<br>CSV</div><div class="arrow">→</div>
+      <div class="flow-item">Clean<br>🧹</div><div class="arrow">→</div>
+      <div class="flow-item">Analyze<br>📊</div><div class="arrow">→</div>
+      <div class="flow-item">Decide<br>✅</div>
+    </div>
+    <div class="concept-box compact" style="margin-top:0.9em;">
+      <p><strong>Example:</strong> A humidity sensor reports 35%, 36%, 34%, then suddenly 200%. A program can detect that 200% is physically impossible, remove it, and keep the analysis reliable.</p>
+    </div>
+    <aside class="notes">Timing: 2 minutes. Emphasize programming as a bridge between sensor hardware and decision making.</aside>
+  </section>
+
+  <section>
+    <h2>Why Python?</h2>
+    <div class="two-col-wide">
+      <div class="concept-box compact">
+        <ul>
+          <li><strong>Readable:</strong> Python looks close to English compared with many other languages.</li>
+          <li><strong>Fast to try:</strong> write a line, run it, and see the result.</li>
+          <li><strong>Huge ecosystem:</strong> data science, plotting, AI, web apps, robotics, and biology.</li>
+          <li><strong>Beginner-friendly:</strong> you can start with simple commands and grow into advanced projects.</li>
+        </ul>
+      </div>
+      <div class="example-box center">
+        <h3>One-line example</h3>
+        <pre><code class="language-python" data-trim>print("Hello, greenhouse!")</code></pre>
+        <p class="muted">Simple syntax helps us focus on ideas first.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 3 minutes. Compare with Arduino C/C++ lightly, but keep focus on Python.</aside>
+  </section>
+
+  <section>
+    <h2>Python Is Popular, But “Popular” Has Many Meanings</h2>
+    <div class="concept-box compact">
+      <p>Different rankings use different measurements: search activity, tutorials, GitHub contributors, job postings, or survey responses. The key message for students: Python is consistently one of the most important languages for data, AI, automation, and research.</p>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-row"><strong>Data science</strong><div class="bar"><div class="bar-fill" style="width:92%"></div></div><span>high</span></div>
+      <div class="bar-row"><strong>AI / ML</strong><div class="bar"><div class="bar-fill" style="width:95%"></div></div><span>high</span></div>
+      <div class="bar-row"><strong>Beginner teaching</strong><div class="bar"><div class="bar-fill" style="width:88%"></div></div><span>high</span></div>
+      <div class="bar-row"><strong>Web / tools</strong><div class="bar"><div class="bar-fill" style="width:74%"></div></div><span>strong</span></div>
+    </div>
+    <div class="code-note compact" style="margin-top:0.6em;">Teaching note: avoid saying “Python is always #1 everywhere.” Say “Python is one of the top languages, especially for data and AI.”</div>
+    <aside class="notes">Timing: 2 minutes. Mention TIOBE and GitHub rankings can differ because they count different things.</aside>
+  </section>
+
+  <section>
+    <h2>Why Google Colab?</h2>
+    <div class="three-col">
+      <div class="mini-card center">
+        <div class="emoji-mid">🌐</div>
+        <h3>No install</h3>
+        <p>Run Python in a browser.</p>
+      </div>
+      <div class="mini-card center">
+        <div class="emoji-mid">📝</div>
+        <h3>Notebook format</h3>
+        <p>Code + explanation + outputs.</p>
+      </div>
+      <div class="mini-card center">
+        <div class="emoji-mid">🤝</div>
+        <h3>Easy to share</h3>
+        <p>Great for class demos and projects.</p>
+      </div>
+    </div>
+    <div class="activity-box compact" style="margin-top:0.65em;">
+      <strong>Type-along setup:</strong> Open <code>colab.research.google.com</code> → New notebook → rename it <code>Day3_Python_Basics</code>.
+    </div>
+    <aside class="notes">Timing: 4 minutes. Let students open Colab. Help anyone who is not signed in.</aside>
+  </section>
+
+  <section>
+    <h2>What Is a Program?</h2>
+    <div class="two-col">
+      <div class="concept-box">
+        <p>A program is a set of instructions that tells the computer what to do next.</p>
+        <p>Programming is not magic. It is giving clear instructions, in the right order, using a language the computer can run.</p>
+      </div>
+      <div class="example-box compact">
+        <h3>Human recipe</h3>
+        <ol>
+          <li>Measure water temperature.</li>
+          <li>Compare with target range.</li>
+          <li>If too hot, turn on cooling.</li>
+          <li>If normal, keep monitoring.</li>
+        </ol>
+      </div>
+    </div>
+    <aside class="notes">Timing: 2 minutes. Ask: what happens if recipe steps are out of order?</aside>
+  </section>
+
+  <section>
+    <h2>A Simple Computer Model</h2>
+    <div class="flow" style="margin-top:1em;">
+      <div class="flow-item">Input<br>keyboard / sensor</div><div class="arrow">→</div>
+      <div class="flow-item">Memory<br>variables</div><div class="arrow">→</div>
+      <div class="flow-item">CPU<br>calculates</div><div class="arrow">→</div>
+      <div class="flow-item">Output<br>screen / file</div>
+    </div>
+    <div class="concept-box compact" style="margin-top:0.9em;">
+      <p>For today, our input will be numbers typed into Colab. Later, the input can be real sensor data from Arduino, Raspberry Pi, or CSV files.</p>
+    </div>
+    <aside class="notes">Timing: 2 minutes. Connect CPU/memory/input-output to programming basics.</aside>
+  </section>
+
+  <section>
+    <h2>Interpreter: Python Runs Line by Line</h2>
+    <div class="two-col-wide">
+      <div class="concept-box compact">
+        <p>Python is commonly used interactively. In Colab, you write code in a cell, press run, and Python interprets the code.</p>
+        <p>This is perfect for learning because you can test one small idea at a time.</p>
+      </div>
+      <div class="example-box center">
+        <pre><code class="language-python" data-trim>2 + 3
+
+# Run this cell.
+# Python gives you the result.</code></pre>
+      </div>
+    </div>
+    <aside class="notes">Timing: 2 minutes. Demonstrate one cell with arithmetic.</aside>
+  </section>
+
+  <section>
+    <h2>Your First Python Output</h2>
+    <div class="two-col">
+      <div>
+        <pre><code class="language-python" data-trim>print("Hello, AIFS summer camp!")
+print("Today we are learning Python.")
+print("Python can help us analyze greenhouse data.")</code></pre>
+      </div>
+      <div class="demo-output">Hello, AIFS summer camp!
+Today we are learning Python.
+Python can help us analyze greenhouse data.</div>
+    </div>
+    <div class="activity-box compact" style="margin-top:0.65em;"><strong>Try it:</strong> Change the message to include your name or favorite plant.</div>
+    <aside class="notes">Timing: 3 minutes. Make sure everyone can run a cell.</aside>
+  </section>
+
+  <section>
+    <h2>Python as a Calculator</h2>
+    <div class="two-col">
+      <div>
+        <pre><code class="language-python" data-trim># Basic math
+print(10 + 5)
+print(10 - 5)
+print(10 * 5)
+print(10 / 5)
+
+# Powers
+print(2 ** 3)</code></pre>
+      </div>
+      <div class="concept-box compact">
+        <h3>Common operators</h3>
+        <ul>
+          <li><code>+</code> add</li>
+          <li><code>-</code> subtract</li>
+          <li><code>*</code> multiply</li>
+          <li><code>/</code> divide</li>
+          <li><code>**</code> power</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="notes">Timing: 3 minutes. Have students calculate water volume or sensor reading examples.</aside>
+  </section>
+
+  <section>
+    <h2>Comments: Notes for Humans</h2>
+    <div class="two-col-wide">
+      <div class="concept-box compact">
+        <p>Python ignores anything after <code>#</code> on the same line. Comments help future you and your teammates understand why the code exists.</p>
+      </div>
+      <div>
+        <pre><code class="language-python" data-trim># This stores the target greenhouse temperature in Celsius
+target_temp = 24
+
+# Print the target value
+print(target_temp)</code></pre>
+      </div>
+    </div>
+    <aside class="notes">Timing: 1 minute. Emphasize comments explain purpose, not every obvious line.</aside>
+  </section>
+
+  <section>
+    <h2>Variables: Names for Values</h2>
+    <div class="two-col">
+      <div class="concept-box compact">
+        <p>A variable stores information so we can use it later. Think of it as a labeled container.</p>
+        <p>Good variable names make code easier to read.</p>
+      </div>
+      <div>
+        <pre><code class="language-python" data-trim>temperature_c = 23.5
+humidity_percent = 58
+plant = "lettuce"
+
+print(temperature_c)
+print(humidity_percent)
+print(plant)</code></pre>
+      </div>
+    </div>
+    <aside class="notes">Timing: 4 minutes. Ask students which variable name is clearer: x or temperature_c?</aside>
+  </section>
+
+  <section>
+    <h2>Data Types: What Kind of Value?</h2>
+    <div class="three-col">
+      <div class="mini-card center">
+        <h3>Integer</h3>
+        <pre><code class="language-python" data-trim>plant_count = 72</code></pre>
+        <p>Whole number</p>
+      </div>
+      <div class="mini-card center">
+        <h3>Float</h3>
+        <pre><code class="language-python" data-trim>temp = 23.5</code></pre>
+        <p>Decimal number</p>
+      </div>
+      <div class="mini-card center">
+        <h3>String</h3>
+        <pre><code class="language-python" data-trim>crop = "lettuce"</code></pre>
+        <p>Text</p>
+      </div>
+    </div>
+    <div class="code-note compact" style="margin-top:0.6em;">Use <code>type(value)</code> to ask Python what kind of value you have.</div>
+    <aside class="notes">Timing: 3 minutes. Demo type() for each example.</aside>
+  </section>
+
+  <section>
+    <h2>Strings: Working with Text</h2>
+    <div class="two-col">
+      <div>
+        <pre><code class="language-python" data-trim>crop = "lettuce"
+location = "greenhouse A"
+
+message = crop + " is growing in " + location
+print(message)
+
+print(crop.upper())
+print(len(crop))</code></pre>
+      </div>
+      <div class="example-box compact">
+        <h3>Why text matters</h3>
+        <p>Sensor files contain column names, plant IDs, dates, treatment labels, and notes. Python can store and process all of them.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 3 minutes. Explain concatenation and string methods very briefly.</aside>
+  </section>
+
+  <section>
+    <h2>Input: Let the User Provide a Value</h2>
+    <div class="two-col-wide">
+      <div>
+        <pre><code class="language-python" data-trim>name = input("What is your name? ")
+print("Hello, " + name + "!")</code></pre>
+      </div>
+      <div class="warning-box compact">
+        <h3>Important</h3>
+        <p><code>input()</code> always returns text. If you want to do math with the answer, convert it to a number using <code>int()</code> or <code>float()</code>.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 3 minutes. Demo input. Note Colab creates an input box.</aside>
+  </section>
+
+  <section>
+    <h2>Converting Text to Numbers</h2>
+    <div class="two-col">
+      <div>
+        <pre><code class="language-python" data-trim>temp_text = input("Enter air temperature in C: ")
+temp_c = float(temp_text)
+
+temp_f = temp_c * 9/5 + 32
+print("Temperature in F:", temp_f)</code></pre>
+      </div>
+      <div class="activity-box compact">
+        <h3>Try it</h3>
+        <p>Enter <code>25</code>. What Fahrenheit temperature does Python calculate?</p>
+        <p>Then try <code>23.5</code>.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 4 minutes. This is a good checkpoint for all students.</aside>
+  </section>
+
+  <section>
+    <h2>Mini Program: Temperature Converter</h2>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim># Convert greenhouse temperature from Celsius to Fahrenheit
+
+temp_c = float(input("Enter greenhouse temperature in Celsius: "))
+temp_f = temp_c * 9/5 + 32
+
+print("Temperature:", temp_c, "°C")
+print("Temperature:", temp_f, "°F")</code></pre>
+    </div>
+    <div class="code-note compact">This is already a real program: it takes input, calculates, and gives output.</div>
+    <aside class="notes">Timing: 3 minutes. Explain input → process → output.</aside>
+  </section>
+
+  <section>
+    <h2>Booleans and Comparisons</h2>
+    <div class="two-col">
+      <div>
+        <pre><code class="language-python" data-trim>temperature_c = 29
+
+print(temperature_c > 28)
+print(temperature_c < 20)
+print(temperature_c == 24)</code></pre>
+      </div>
+      <div class="concept-box compact">
+        <h3>Comparison operators</h3>
+        <ul>
+          <li><code>></code> greater than</li>
+          <li><code><</code> less than</li>
+          <li><code>==</code> equal to</li>
+          <li><code>!=</code> not equal to</li>
+          <li><code>>=</code>, <code><=</code> greater/less or equal</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="notes">Timing: 3 minutes. Explain True/False as decision foundations.</aside>
+  </section>
+
+  <section>
+    <h2>Conditionals: If This, Then That</h2>
+    <div class="two-col-wide">
+      <div>
+        <pre><code class="language-python" data-trim>temperature_c = 29
+
+if temperature_c > 28:
+    print("Too hot: turn on cooling fan")
+else:
+    print("Temperature is okay")</code></pre>
+      </div>
+      <div class="concept-box compact">
+        <p>An <code>if</code> statement lets the program choose different actions depending on the situation.</p>
+        <p><strong>Indentation matters:</strong> the indented lines belong inside the condition.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 4 minutes. Emphasize colon and indentation. Let them break indentation intentionally.</aside>
+  </section>
+
+  <section>
+    <h2>More Than Two Choices: <code>elif</code></h2>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim>humidity = 38
+
+if humidity < 40:
+    print("Air is too dry")
+elif humidity <= 70:
+    print("Humidity is in a good range")
+else:
+    print("Air is too humid")</code></pre>
+    </div>
+    <div class="activity-box compact">Change <code>humidity</code> to 35, 55, and 80. Which message appears each time?</div>
+    <aside class="notes">Timing: 4 minutes. This is an interactive slide; have them test all three branches.</aside>
+  </section>
+
+  <section>
+    <h2>Greenhouse Decision Example</h2>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim>temp_c = 25
+humidity = 45
+
+if temp_c > 28 and humidity < 40:
+    print("Hot and dry: check irrigation and cooling")
+elif temp_c > 28:
+    print("Hot: turn on cooling")
+elif humidity < 40:
+    print("Dry: consider misting")
+else:
+    print("Climate looks stable")</code></pre>
+    </div>
+    <div class="code-note compact">Use <code>and</code> when both conditions must be true. Use <code>or</code> when at least one condition can be true.</div>
+    <aside class="notes">Timing: 4 minutes. Explain logical operators with plain language.</aside>
+  </section>
+
+  <section>
+    <h2>Lists: Store Many Values</h2>
+    <div class="two-col">
+      <div>
+        <pre><code class="language-python" data-trim>temperatures = [23.1, 23.4, 24.0, 24.8, 25.2]
+
+print(temperatures)
+print(temperatures[0])
+print(temperatures[-1])</code></pre>
+      </div>
+      <div class="concept-box compact">
+        <h3>List ideas</h3>
+        <ul>
+          <li>A list stores multiple values.</li>
+          <li>Python starts counting at <code>0</code>.</li>
+          <li><code>-1</code> means the last item.</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="notes">Timing: 4 minutes. Have students predict outputs before running.</aside>
+  </section>
+
+  <section>
+    <h2>Useful List Operations</h2>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim>temperatures = [23.1, 23.4, 24.0, 24.8, 25.2]
+
+print("Number of readings:", len(temperatures))
+print("Minimum:", min(temperatures))
+print("Maximum:", max(temperatures))
+print("Average:", sum(temperatures) / len(temperatures))</code></pre>
+    </div>
+    <div class="example-box compact">This is the first step toward sensor data analysis: summarize many readings with a few meaningful numbers.</div>
+    <aside class="notes">Timing: 3 minutes. Connect summary statistics to climate monitoring.</aside>
+  </section>
+
+  <section>
+    <h2>Loops: Repeat Without Rewriting</h2>
+    <div class="two-col-wide">
+      <div>
+        <pre><code class="language-python" data-trim>temperatures = [23.1, 23.4, 24.0, 24.8, 25.2]
+
+for temp in temperatures:
+    print("Reading:", temp)</code></pre>
+      </div>
+      <div class="concept-box compact">
+        <p>A loop repeats the same action for each value in a collection.</p>
+        <p>Without loops, analyzing thousands of sensor readings would be impossible by hand.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 4 minutes. Trace the loop line by line.</aside>
+  </section>
+
+  <section>
+    <h2>Loop + Condition</h2>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim>temperatures = [23.1, 29.2, 24.0, 30.1, 25.2]
+
+for temp in temperatures:
+    if temp > 28:
+        print(temp, "is too hot")
+    else:
+        print(temp, "is okay")</code></pre>
+    </div>
+    <div class="activity-box compact">Challenge: Count how many readings are too hot.</div>
+    <aside class="notes">Timing: 4 minutes. Let advanced students add a counter variable.</aside>
+  </section>
+
+  <section>
+    <h2>Counting Events</h2>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim>temperatures = [23.1, 29.2, 24.0, 30.1, 25.2]
+
+hot_count = 0
+
+for temp in temperatures:
+    if temp > 28:
+        hot_count = hot_count + 1
+
+print("Number of hot readings:", hot_count)</code></pre>
+    </div>
+    <div class="code-note compact">A counter variable starts at zero and increases when a condition is met.</div>
+    <aside class="notes">Timing: 3 minutes. Explain variable update carefully.</aside>
+  </section>
+
+  <section>
+    <h2>Functions: Reusable Code Blocks</h2>
+    <div class="two-col">
+      <div>
+        <pre><code class="language-python" data-trim>def c_to_f(temp_c):
+    temp_f = temp_c * 9/5 + 32
+    return temp_f
+
+print(c_to_f(25))
+print(c_to_f(30))</code></pre>
+      </div>
+      <div class="concept-box compact">
+        <p>A function packages code so we can use it again and again.</p>
+        <p>Functions make programs easier to test, read, and improve.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 4 minutes. Define input/parameter and return value.</aside>
+  </section>
+
+  <section>
+    <h2>Function Example: Sensor Voltage to Light</h2>
+    <div class="micro-code">
+      <pre><code class="language-python" data-trim># Example conversion for a PAR light sensor
+# Suppose calibration says: PPFD = voltage_mV * 0.8
+
+def voltage_to_ppfd(voltage_v):
+    voltage_mV = voltage_v * 1000
+    ppfd = voltage_mV * 0.8
+    return ppfd
+
+print(voltage_to_ppfd(0.5))
+print(voltage_to_ppfd(1.2))</code></pre>
+    </div>
+    <div class="example-box compact">This mirrors real sensor work: raw electrical signal → calibrated scientific measurement.</div>
+    <aside class="notes">Timing: 4 minutes. Connect to Arduino sensor lessons from Day 2.</aside>
+  </section>
+
+  <section>
+    <h2>Modules: Import Extra Tools</h2>
+    <div class="two-col-wide">
+      <div class="concept-box compact">
+        <p>Python becomes powerful because of modules. A module is a library of code written by other people that we can import and use.</p>
+        <p>For data science, three common libraries are <code>numpy</code>, <code>pandas</code>, and <code>matplotlib</code>.</p>
+      </div>
+      <div>
+        <pre><code class="language-python" data-trim>import math
+
+print(math.sqrt(16))
+print(math.pi)</code></pre>
+      </div>
+    </div>
+    <aside class="notes">Timing: 2 minutes. Keep modules conceptual; more detail later.</aside>
+  </section>
+
+  <section>
+    <h2>First Plot with Matplotlib</h2>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim>import matplotlib.pyplot as plt
+
+time = [0, 1, 2, 3, 4]
+temperature = [23.1, 23.4, 24.0, 24.8, 25.2]
+
+plt.plot(time, temperature, marker="o")
+plt.xlabel("Time (hour)")
+plt.ylabel("Temperature (°C)")
+plt.title("Greenhouse Temperature")
+plt.show()</code></pre>
+    </div>
+    <div class="activity-box compact">Run it in Colab. Then change the title and y-axis label.</div>
+    <aside class="notes">Timing: 5 minutes. Students should see a chart in their notebook.</aside>
+  </section>
+
+  <section>
+    <h2>Tables with Pandas</h2>
+    <div class="two-col">
+      <div class="small-code">
+        <pre><code class="language-python" data-trim>import pandas as pd
+
+data = {
+    "time_h": [0, 1, 2, 3, 4],
+    "temp_c": [23.1, 23.4, 24.0, 24.8, 25.2],
+    "humidity": [60, 58, 55, 52, 50]
+}
+
+df = pd.DataFrame(data)
+df</code></pre>
+      </div>
+      <table class="data-table">
+        <tr><th>time_h</th><th>temp_c</th><th>humidity</th></tr>
+        <tr><td>0</td><td>23.1</td><td>60</td></tr>
+        <tr><td>1</td><td>23.4</td><td>58</td></tr>
+        <tr><td>2</td><td>24.0</td><td>55</td></tr>
+        <tr><td>3</td><td>24.8</td><td>52</td></tr>
+        <tr><td>4</td><td>25.2</td><td>50</td></tr>
+      </table>
+    </div>
+    <aside class="notes">Timing: 4 minutes. Explain DataFrame as a table with column names.</aside>
+  </section>
+
+  <section>
+    <h2>Analyze a Small Greenhouse Dataset</h2>
+    <div class="micro-code">
+      <pre><code class="language-python" data-trim>import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.DataFrame({
+    "time_h": [0, 1, 2, 3, 4, 5, 6],
+    "temp_c": [22.8, 23.0, 23.7, 24.5, 25.8, 28.4, 29.1],
+    "humidity": [64, 62, 59, 56, 50, 42, 38]
+})
+
+print("Average temperature:", df["temp_c"].mean())
+print("Lowest humidity:", df["humidity"].min())
+
+plt.plot(df["time_h"], df["temp_c"], marker="o", label="Temperature")
+plt.xlabel("Time (hour)")
+plt.ylabel("Temperature (°C)")
+plt.title("Greenhouse Climate Trend")
+plt.legend()
+plt.show()</code></pre>
+    </div>
+    <aside class="notes">Timing: 6 minutes. This is the main live coding example near the end.</aside>
+  </section>
+
+  <section>
+    <h2>From Plot to Decision</h2>
+    <div class="two-col-wide">
+      <div class="concept-box compact">
+        <p>After plotting, ask:</p>
+        <ul>
+          <li>Is temperature rising or falling?</li>
+          <li>Is humidity approaching a risky range?</li>
+          <li>Should the greenhouse controller respond?</li>
+        </ul>
+      </div>
+      <div class="small-code">
+        <pre><code class="language-python" data-trim>latest_temp = df["temp_c"].iloc[-1]
+latest_humidity = df["humidity"].iloc[-1]
+
+if latest_temp > 28 and latest_humidity < 40:
+    print("Warning: hot and dry")
+else:
+    print("Climate is acceptable")</code></pre>
+      </div>
+    </div>
+    <aside class="notes">Timing: 4 minutes. Connect final row of table to simple control logic.</aside>
+  </section>
+
+  <section>
+    <h2>Errors Are Feedback</h2>
+    <div class="two-col">
+      <div class="warning-box compact">
+        <h3>Common beginner errors</h3>
+        <ul>
+          <li>Missing quotation mark</li>
+          <li>Wrong indentation</li>
+          <li>Using <code>=</code> instead of <code>==</code></li>
+          <li>Forgetting to convert input text to number</li>
+          <li>Misspelling a variable name</li>
+        </ul>
+      </div>
+      <div class="example-box compact">
+        <h3>Debugging mindset</h3>
+        <p>Do not panic. Read the error message, find the line number, check one thing at a time, and run again.</p>
+        <p>Programming is mostly testing, fixing, and improving.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 3 minutes. Demonstrate a simple NameError or SyntaxError if time allows.</aside>
+  </section>
+
+  <section>
+    <h2>Debugging Demo</h2>
+    <div class="two-col">
+      <div>
+        <pre><code class="language-python" data-trim># Broken code
+temperature = "25"
+print(temperature + 2)</code></pre>
+      </div>
+      <div>
+        <pre><code class="language-python" data-trim># Fixed code
+temperature = "25"
+temperature = float(temperature)
+print(temperature + 2)</code></pre>
+      </div>
+    </div>
+    <div class="code-note compact">The error happens because Python cannot add text and a number. Convert the text first.</div>
+    <aside class="notes">Timing: 3 minutes. Run broken code first, then fixed code.</aside>
+  </section>
+
+  <section>
+    <h2>Good Coding Habits</h2>
+    <div class="three-col">
+      <div class="mini-card center"><div class="emoji-mid">🏷️</div><h3>Name clearly</h3><p>Use <code>temp_c</code>, not <code>x</code>.</p></div>
+      <div class="mini-card center"><div class="emoji-mid">🧪</div><h3>Test small</h3><p>Run often. Fix early.</p></div>
+      <div class="mini-card center"><div class="emoji-mid">💬</div><h3>Comment why</h3><p>Explain purpose and assumptions.</p></div>
+    </div>
+    <div class="concept-box compact" style="margin-top:0.65em;">
+      Clean code is not just for computers. It helps your teammates, your future self, and your instructor understand your thinking.
+    </div>
+    <aside class="notes">Timing: 2 minutes. This can be shortened if behind schedule.</aside>
+  </section>
+
+  <section>
+    <h2>Practice Activity 1: Climate Message</h2>
+    <div class="activity-box compact">
+      <p><strong>Task:</strong> Write a program that asks for temperature and humidity. Print one of three messages:</p>
+      <ol>
+        <li><code>"Too hot"</code> if temperature is above 28°C.</li>
+        <li><code>"Too dry"</code> if humidity is below 40%.</li>
+        <li><code>"Looks good"</code> otherwise.</li>
+      </ol>
+    </div>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim># Starter code
+temp_c = float(input("Temperature in C: "))
+humidity = float(input("Humidity in %: "))
+
+# Add your if / elif / else here</code></pre>
+    </div>
+    <aside class="notes">Timing: 5 minutes. Circulate and help. Review one solution together.</aside>
+  </section>
+
+  <section>
+    <h2>Practice Activity 2: Average Sensor Reading</h2>
+    <div class="activity-box compact">
+      <p><strong>Task:</strong> Given a list of PAR light readings, calculate the average and print whether light is low, medium, or high.</p>
+    </div>
+    <div class="small-code">
+      <pre><code class="language-python" data-trim>par_readings = [120, 150, 180, 220, 260, 310]
+
+average_par = sum(par_readings) / len(par_readings)
+print("Average PAR:", average_par)
+
+if average_par < 150:
+    print("Low light")
+elif average_par < 300:
+    print("Medium light")
+else:
+    print("High light")</code></pre>
+    </div>
+    <aside class="notes">Timing: 5 minutes. If short on time, make this homework or workshop practice.</aside>
+  </section>
+
+  <section>
+    <h2>Practice Activity 3: Make a Plot</h2>
+    <div class="two-col-wide">
+      <div class="activity-box compact">
+        <p><strong>Task:</strong> Plot humidity over time using Matplotlib. Add axis labels and a title.</p>
+      </div>
+      <div class="small-code">
+        <pre><code class="language-python" data-trim>import matplotlib.pyplot as plt
+
+time = [0, 1, 2, 3, 4]
+humidity = [62, 58, 55, 49, 44]
+
+# Add your plot code here</code></pre>
+      </div>
+    </div>
+    <aside class="notes">Timing: 4 minutes. This reinforces plot syntax.</aside>
+  </section>
+
+  <section>
+    <h2>Python Basics Recap</h2>
+    <div class="timeline">
+      <div class="time-step"><strong>Output</strong><br><code>print()</code></div>
+      <div class="time-step"><strong>Variables</strong><br>store values</div>
+      <div class="time-step"><strong>Conditionals</strong><br><code>if</code> decisions</div>
+      <div class="time-step"><strong>Loops</strong><br>repeat actions</div>
+      <div class="time-step"><strong>Libraries</strong><br>plot and analyze</div>
+    </div>
+    <div class="concept-box compact" style="margin-top:0.9em;">
+      These ideas are enough to start analyzing real greenhouse sensor data. Everything else builds on these foundations.
+    </div>
+    <aside class="notes">Timing: 2 minutes. Ask students to name one concept that feels clear and one that needs practice.</aside>
+  </section>
+
+  <section>
+    <h2>Exit Ticket</h2>
+    <div class="activity-box compact">
+      <p>In your Colab notebook, write three lines at the bottom:</p>
+      <ol>
+        <li>One thing Python can help you do in a greenhouse.</li>
+        <li>One line of code you understand now.</li>
+        <li>One question you still have.</li>
+      </ol>
+    </div>
+    <div class="quote" style="margin-top:0.9em;">Programming is practice: small steps, repeated often.</div>
+    <aside class="notes">Timing: 3 minutes. Collect verbally or ask students to save notebooks.</aside>
+  </section>
+
+  <section>
+    <h2>Next Lecture / Workshop</h2>
+    <div class="two-col">
+      <div class="concept-box compact">
+        <h3>Next</h3>
+        <p>We will use Python to work with real or simulated sensor datasets, clean missing values, make better plots, and prepare data for machine learning.</p>
+      </div>
+      <div class="example-box compact">
+        <h3>Bridge to AI</h3>
+        <p>AI models need data in a clean format. Python is the tool that helps us go from raw measurements to model-ready data.</p>
+      </div>
+    </div>
+    <aside class="notes">Timing: 1 minute. End with motivation for the rest of Day 3.</aside>
+  </section>
+
+  <section>
+    <h2>Optional Reference Slide</h2>
+    <div class="concept-box tiny">
+      <p><strong>Teaching references used for structure:</strong> introductory programming motivation, “why Python,” interpreter/compiler, and first-program flow are adapted to the AIFS greenhouse context from the ECS32A Unit 1 introductory programming material.</p>
+      <p><strong>Current context for Python popularity:</strong> rankings differ by methodology. TIOBE measures search and ecosystem signals monthly; GitHub Octoverse measures GitHub contributor activity; Colab is used here because it supports executable Python notebooks in the browser.</p>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    transition: 'slide',
+    backgroundTransition: 'fade',
+    plugins: [ RevealNotes, RevealHighlight ]
+  });
+</script>
+</body>
+</html>

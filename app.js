@@ -39,7 +39,16 @@ const dayData = {
       "Introduction to imaging systems, machine vision, and how image analysis can be used to monitor plant growth, detect stress, and support automated farming.",
     workshopDescription:
       "Hands-on Raspberry Pi camera activity where students capture plant images and explore basic image-based plant monitoring.",
-    materialFile: "slides/day3-in-class.html",
+    materialFile: [
+      {
+        label: "🐍 Python Lecture",
+        file: "slides/day3-python.html"
+      },
+      {
+        label: "📷 Computer Vision Lecture",
+        file: "slides/day3-cv.html"
+      }
+    ],
     workshopFile: "slides/day3-workshop.html"
   },
 
@@ -50,7 +59,12 @@ const dayData = {
       "Introduction to plant-lighting concepts, including daily light integral, photosynthetic photon flux density, light-use efficiency, and lighting applications in computer vision.",
     workshopDescription:
       "Hands-on computer vision image training with experimental data for controlled environment agriculture applications.",
-    materialFile: "slides/day4-in-class.html",
+    materialFile: [
+      {
+        label: "💡 Lighting Lecture",
+        file: "slides/day4-in-class.html"
+      }
+    ],
     workshopFile: "slides/day4-workshop.html"
   }
 };
@@ -82,10 +96,7 @@ function setupDayPage() {
   workshopLink.href = data.workshopFile;
   workshopDescription.textContent = data.workshopDescription;
 
-  /*
-    Day 1: hide in-class material.
-    Days 2–4: show in-class material.
-  */
+  // Day 1: hide in-class material
   if (String(day) === "1") {
     materialLink.style.display = "none";
 
@@ -96,14 +107,11 @@ function setupDayPage() {
     return;
   }
 
-  /*
-    If this day has multiple lecture files, create multiple buttons.
-    Example: Day 2 has IoT Lecture and AI/ML Lecture.
-  */
-  if (data.materialFiles && data.materialFiles.length > 0) {
+  // Days with multiple lecture buttons
+  if (Array.isArray(data.materialFile)) {
     materialLink.style.display = "none";
 
-    data.materialFiles.forEach((item) => {
+    data.materialFile.forEach((item) => {
       const newButton = document.createElement("a");
       newButton.className = "nav-button material";
       newButton.href = item.file;
@@ -121,9 +129,7 @@ function setupDayPage() {
     return;
   }
 
-  /*
-    Default case: one in-class material button.
-  */
+  // Default: days with one lecture button
   materialLink.style.display = "inline-flex";
   materialLink.href = data.materialFile;
 

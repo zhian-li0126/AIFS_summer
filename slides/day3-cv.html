@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AIFS Summer Camp Day 3 — Computer Vision</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+
+  <style>
+    :root {
+      --aifs-green: #19785a;
+      --aifs-light: #e8f6ef;
+      --aifs-blue: #0c5fa8;
+      --aifs-orange: #f39c12;
+      --aifs-red: #c0392b;
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --panel: #ffffff;
+      --shadow: 0 12px 28px rgba(31, 41, 55, 0.16);
+      --soft-blue: #edf6ff;
+      --soft-yellow: #fff8df;
+      --soft-red: #fff1f0;
+    }
+
+    .reveal {
+      font-family: "Aptos", "Segoe UI", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+    }
+
+    .reveal h1, .reveal h2, .reveal h3 {
+      color: #0f3f31;
+      letter-spacing: -0.02em;
+      text-transform: none;
+    }
+
+    .reveal h1 { font-size: 2.25em; }
+    .reveal h2 { font-size: 1.48em; margin-bottom: 0.32em; }
+    .reveal h3 { font-size: 1.0em; }
+    .reveal p, .reveal li { font-size: 0.80em; line-height: 1.22; }
+    .reveal small { color: var(--muted); }
+    .reveal pre code { max-height: 470px; font-size: 0.76em; line-height: 1.18; }
+
+    .subtitle { font-size: 0.86em; color: var(--muted); margin-top: 0.35em; }
+    .tagline {
+      display: inline-block;
+      padding: 0.28em 0.65em;
+      border-radius: 999px;
+      background: var(--aifs-light);
+      color: var(--aifs-green);
+      font-size: 0.56em;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .two-col, .two-col-wide, .three-col, .four-col {
+      display: grid;
+      gap: 0.72em;
+      align-items: stretch;
+    }
+    .two-col { grid-template-columns: 1fr 1fr; }
+    .two-col-wide { grid-template-columns: 1.12fr 0.88fr; }
+    .three-col { grid-template-columns: repeat(3, 1fr); }
+    .four-col { grid-template-columns: repeat(4, 1fr); gap: 0.55em; }
+
+    .card, .concept-box, .example-card, .image-card, .note-box, .callout, .activity-box, .notebook-card {
+      background: var(--panel);
+      border: 1px solid #d9e2df;
+      border-radius: 18px;
+      padding: 0.72em;
+      box-shadow: var(--shadow);
+      text-align: left;
+    }
+
+    /* Default text boxes are intentionally smaller, so dense slides still fit. */
+    .concept-box { background: var(--aifs-light); font-size: 0.78em; }
+    .example-card { background: var(--soft-blue); font-size: 0.76em; }
+    .note-box { background: #f8fafc; font-size: 0.74em; }
+    .callout { background: var(--soft-yellow); border-color: #f7d06a; font-size: 0.76em; }
+    .activity-box { background: #f7f3ff; border-color: #c8b9ff; font-size: 0.75em; }
+    .dense { font-size: 0.70em !important; line-height: 1.15 !important; }
+    .tiny { font-size: 0.62em !important; line-height: 1.15 !important; }
+
+    .image-card { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 260px; }
+    .image-card img { max-width: 100%; max-height: 440px; border-radius: 12px; object-fit: contain; }
+    .placeholder {
+      width: 100%; min-height: 260px; border: 2px dashed #9db7ad; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 0.8em; color: var(--muted); background: #f6fbf8; font-size: 0.76em;
+    }
+    .placeholder.small { min-height: 160px; }
+    .caption { font-size: 0.56em; color: var(--muted); margin-top: 0.45em; text-align: center; }
+
+    .pill-row { display: flex; gap: 0.35em; flex-wrap: wrap; margin-top: 0.35em; }
+    .pill {
+      display: inline-block; padding: 0.26em 0.55em; border-radius: 999px; background: #eef2ff;
+      color: #243b72; font-size: 0.58em; font-weight: 700;
+    }
+    .pill.green { background: var(--aifs-light); color: var(--aifs-green); }
+    .pill.orange { background: #fff0df; color: #9b4a0a; }
+    .pill.red { background: var(--soft-red); color: var(--aifs-red); }
+
+    .step-list { counter-reset: step; list-style: none; padding-left: 0; }
+    .step-list li { position: relative; padding-left: 2.0em; margin: 0.45em 0; }
+    .step-list li::before {
+      counter-increment: step; content: counter(step);
+      position: absolute; left: 0; top: 0.05em; width: 1.35em; height: 1.35em; border-radius: 50%;
+      background: var(--aifs-green); color: white; font-weight: 700; font-size: 0.82em; display: flex; align-items: center; justify-content: center;
+    }
+
+    .matrix {
+      display: grid; grid-template-columns: repeat(6, 1.6em); gap: 0.08em; justify-content: center; margin: 0.3em auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .matrix span { background: #eef2f7; border: 1px solid #c9d3df; padding: 0.18em 0; text-align: center; font-size: 0.62em; }
+
+    .timeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.35em; margin-top: 0.35em; }
+    .time-block { border-top: 4px solid var(--aifs-green); padding-top: 0.25em; font-size: 0.66em; text-align: left; }
+
+    .notebook-card a { color: var(--aifs-blue); font-weight: 700; text-decoration: none; }
+    .notebook-card p { margin: 0.25em 0 0; }
+
+    .full-width-img { width: 96%; max-height: 560px; object-fit: contain; border-radius: 14px; box-shadow: var(--shadow); }
+    .center { text-align: center; }
+    .left { text-align: left; }
+    .quote { font-size: 1.05em; color: #143a2d; font-weight: 700; }
+    .source { font-size: 0.50em; color: var(--muted); margin-top: 0.4em; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <section>
+      <span class="tagline">AIFS Summer Camp · Day 3 · Lecture 2</span>
+      <h1>Computer Vision: From Pixels to Intelligent Images</h1>
+      <p class="subtitle">A broad introduction to image processing, sampling, neural networks, CNNs, object detection, and generative vision.</p>
+      <div class="pill-row center" style="justify-content:center;">
+        <span class="pill green">filters</span>
+        <span class="pill green">edges</span>
+        <span class="pill orange">aliasing</span>
+        <span class="pill">CNNs</span>
+        <span class="pill">YOLO</span>
+        <span class="pill red">GANs</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Today: one hour roadmap</h2>
+      <div class="timeline">
+        <div class="time-block"><strong>0-8 min</strong><br>What is computer vision?</div>
+        <div class="time-block"><strong>8-18 min</strong><br>Applications across fields</div>
+        <div class="time-block"><strong>18-30 min</strong><br>Images, filters, edges</div>
+        <div class="time-block"><strong>30-38 min</strong><br>Sampling and aliasing</div>
+        <div class="time-block"><strong>38-52 min</strong><br>Neural networks and CNNs</div>
+        <div class="time-block"><strong>52-60 min</strong><br>YOLO, GANs, notebooks</div>
+      </div>
+      <div class="callout" style="margin-top:0.8em;">
+        <p><strong>Teaching goal:</strong> Students should leave with a mental map: images are numbers, filters transform numbers, CNNs learn filters, detection locates objects, and generative models synthesize new images.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>What is computer vision?</h2>
+      <div class="two-col-wide">
+        <div class="concept-box">
+          <p class="quote">Computer vision is the science of helping computers understand images and videos.</p>
+          <p>Humans see a picture and immediately infer objects, actions, scene layout, emotion, danger, quality, or disease symptoms. A computer only receives arrays of pixel values. Computer vision tries to bridge that gap.</p>
+          <ul>
+            <li><strong>Input:</strong> pixels from a camera, microscope, satellite, phone, drone, or sensor.</li>
+            <li><strong>Output:</strong> labels, locations, measurements, segmentation masks, depth, actions, or generated images.</li>
+          </ul>
+        </div>
+        <div class="image-card">
+          <img src="../images/examples-computer-vision.jpg" alt="Computer vision examples" style="width: 100%; max-height: 320px; object-fit: contain; border-radius: 12px;">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Every image tells a story</h2>
+      <div class="two-col">
+        <div class="image-card">
+          <img src="../images/historical-photo.png" alt="Historical photo" style="width: 100%; max-height: 320px; object-fit: contain; border-radius: 12px;">
+        </div>
+        <div class="concept-box dense">
+          <p><strong>Ask students:</strong> What do you see? What happened before this image was taken? What might happen next?</p>
+          <p>Computer vision asks similar questions, but it must infer them from pixels.</p>
+          <ul>
+            <li><strong>Objects:</strong> What things are present?</li>
+            <li><strong>Geometry:</strong> Where are things in 2D or 3D?</li>
+            <li><strong>Events:</strong> What is happening?</li>
+            <li><strong>Meaning:</strong> Why does it matter?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The computer sees numbers first</h2>
+      <div class="two-col-wide">
+        <div class="concept-box">
+          <p>An image is a matrix. In a grayscale image, each pixel is one number. In a color image, each pixel usually has three numbers: red, green, and blue.</p>
+          <p>The challenge is that the meaning is not obvious from the raw numbers.</p>
+        </div>
+        <div class="card center">
+          <h3>Small grayscale image patch</h3>
+          <div class="matrix">
+            <span>21</span><span>22</span><span>24</span><span>71</span><span>73</span><span>75</span>
+            <span>20</span><span>21</span><span>25</span><span>74</span><span>77</span><span>79</span>
+            <span>19</span><span>20</span><span>23</span><span>76</span><span>81</span><span>83</span>
+            <span>18</span><span>18</span><span>22</span><span>79</span><span>84</span><span>85</span>
+            <span>17</span><span>18</span><span>21</span><span>81</span><span>86</span><span>87</span>
+            <span>16</span><span>17</span><span>20</span><span>82</span><span>88</span><span>89</span>
+          </div>
+          <p class="caption">A sharp change from small to large numbers may indicate an edge.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Can computers match human perception?</h2>
+      <div class="two-col">
+        <div class="concept-box dense">
+          <p><strong>Yes and no.</strong></p>
+          <p>Modern systems are impressive: they can classify images, locate objects, generate images, track people, estimate depth, and assist scientific analysis.</p>
+          <p>But they still make mistakes because perception is ambiguous. A model may fail under new lighting, camera angle, occlusion, unusual objects, or biased data.</p>
+        </div>
+        <div class="activity-box dense">
+          <p><strong>Quick discussion:</strong></p>
+          <ul>
+            <li>When is a human better than a model?</li>
+            <li>When is a model better than a human?</li>
+            <li>Why does speed matter in self-driving cars, robotics, or medical screening?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Computer vision is broad</h2>
+      <div class="four-col">
+        <div class="example-card"><strong>Medicine</strong><br>MRI/CT images, skin lesions, cell images, surgery assistance.</div>
+        <div class="example-card"><strong>Transportation</strong><br>Lane detection, pedestrians, traffic signs, driver assistance.</div>
+        <div class="example-card"><strong>Robotics</strong><br>Grasping objects, navigation, warehouse automation, drones.</div>
+        <div class="example-card"><strong>Agriculture</strong><br>Crop monitoring, disease symptoms, fruit counting, greenhouse automation.</div>
+        <div class="example-card"><strong>Sports</strong><br>Player tracking, ball tracking, instant replay, performance analytics.</div>
+        <div class="example-card"><strong>Accessibility</strong><br>Reading text aloud, scene description, navigation assistance.</div>
+        <div class="example-card"><strong>Science</strong><br>Microscopy, astronomy, climate images, materials inspection.</div>
+        <div class="example-card"><strong>Creativity</strong><br>Photography, AR filters, image generation, visual effects.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Common computer vision tasks</h2>
+      <div class="three-col">
+        <div class="concept-box">
+          <h3>Low-level vision</h3>
+          <p>Clean or transform images.</p>
+          <ul><li>Blur/noise reduction</li><li>Sharpening</li><li>Edge detection</li><li>Color correction</li></ul>
+        </div>
+        <div class="concept-box">
+          <h3>Mid-level vision</h3>
+          <p>Find parts or regions.</p>
+          <ul><li>Keypoints</li><li>Segmentation</li><li>Tracking</li><li>Depth</li></ul>
+        </div>
+        <div class="concept-box">
+          <h3>High-level vision</h3>
+          <p>Connect images to meaning.</p>
+          <ul><li>Classification</li><li>Detection</li><li>Captioning</li><li>Generation</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why is computer vision difficult?</h2>
+      <div class="two-col-wide">
+        <div class="concept-box dense">
+          <ul>
+            <li><strong>Viewpoint:</strong> the same object looks different from different angles.</li>
+            <li><strong>Illumination:</strong> shadows and lighting change pixel values.</li>
+            <li><strong>Scale:</strong> objects can be close, far, large, or tiny.</li>
+            <li><strong>Occlusion:</strong> objects can hide behind other objects.</li>
+            <li><strong>Background clutter:</strong> the object competes with surrounding textures.</li>
+            <li><strong>Intra-class variation:</strong> two dogs, cars, leaves, or faces can look very different.</li>
+          </ul>
+        </div>
+        <div class="image-card">
+          <img src="../images/viewpoint-illumination-scale.png" alt="Computer vision challenges">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Vision pipeline: from camera to decision</h2>
+      <div class="card center">
+        <img class="full-width-img" src="../images/cnn_blocks.png" alt="CNN pipeline blocks", style="max-height: 400px;">
+      </div>
+      <p class="caption">In traditional vision, humans design many filters and features. In deep learning, the model learns many useful filters from data.</p>
+    </section>
+
+    <section>
+      <h2>Images are arrays with channels</h2>
+      <div class="two-col">
+        <div class="concept-box dense">
+          <p><strong>Grayscale:</strong> one brightness value per pixel.</p>
+          <p><strong>RGB:</strong> three values per pixel: red, green, blue.</p>
+          <p><strong>Other image types:</strong> thermal images, depth maps, hyperspectral images, X-rays, microscopy channels, radar images.</p>
+          <p>The image type depends on the sensor. Computer vision is not limited to phone photos.</p>
+        </div>
+        <div class="image-card">
+          <img src="../images/rgb-channels.png" alt="RGB image channels">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Filters: local operations on pixels</h2>
+      <div class="two-col-wide">
+        <div class="concept-box dense">
+          <p>A filter slides a small grid of weights across an image. At each location, it combines nearby pixels to create a new pixel.</p>
+          <p>This local operation can smooth, sharpen, detect edges, or highlight texture.</p>
+          <p>Later, CNNs use the same idea, but the filter values are learned from data rather than manually chosen.</p>
+        </div>
+        <div class="image-card">
+          <img src="../images/filter_kernels.png" alt="Example filter kernels">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Convolution intuition</h2>
+      <div class="two-col">
+        <div class="concept-box dense">
+          <ol class="step-list">
+            <li>Place a small kernel over a patch of pixels.</li>
+            <li>Multiply each pixel by the matching kernel value.</li>
+            <li>Add the results.</li>
+            <li>Move to the next pixel and repeat.</li>
+          </ol>
+        </div>
+        <div class="card center">
+          <pre><code class="language-python"># Simple idea, not optimized
+new_pixel = 0
+for i in range(3):
+    for j in range(3):
+        new_pixel += image[y+i, x+j] * kernel[i, j]</code></pre>
+          <p class="caption">This is the core operation behind many image filters and CNN layers.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Blur: reduce noise, lose detail</h2>
+      <div class="two-col">
+        <div class="image-card">
+          <img src="../images/noisy-vs-blurred.png" alt="Noisy image vs Gaussian blurred image">
+        </div>
+        <div class="concept-box dense">
+          <p><strong>Why blur?</strong> A camera can capture random noise. Blur averages nearby pixels, making small noise less visible.</p>
+          <p><strong>Tradeoff:</strong> too much blur removes fine details such as text, veins, hair, small defects, or disease symptoms.</p>
+          <p>In edge detection, blur is often used before computing edges so noise does not become false edges.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Sharpen: emphasize local differences</h2>
+      <div class="two-col">
+        <div class="concept-box dense">
+          <p>Sharpening makes boundaries and fine texture more visible. It can improve visual clarity, but it can also amplify noise.</p>
+          <p>In scientific imaging, sharpening should be used carefully because it may change the appearance of measurements.</p>
+        </div>
+        <div class="image-card">
+          <img src="../images/original-vs-sharpened.png" alt="Original image vs sharpened image">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Edge detection: where brightness changes</h2>
+      <div class="two-col-wide">
+        <div class="concept-box dense">
+          <p>An edge often means a boundary: object edge, shadow boundary, material transition, text stroke, lane marking, leaf edge, or cell boundary.</p>
+          <p>Edge detection is useful because it simplifies an image into structural information.</p>
+          <ul>
+            <li><strong>Sobel:</strong> estimates horizontal and vertical gradients.</li>
+            <li><strong>Canny:</strong> uses blur, gradients, thinning, and thresholding.</li>
+          </ul>
+        </div>
+        <div class="image-card">
+          <img src="../images/edge-detection-examples.png" alt="Edge detection examples">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Sobel filters: horizontal and vertical change</h2>
+      <div class="two-col">
+        <div class="card center">
+          <pre><code class="language-python">from skimage import filters
+
+sobel_x = filters.sobel_h(gray_image)
+sobel_y = filters.sobel_v(gray_image)
+sobel_mag = filters.sobel(gray_image)</code></pre>
+        </div>
+        <div class="concept-box dense">
+          <p>The Sobel operator approximates the gradient of image intensity.</p>
+          <p>If brightness changes strongly, the gradient magnitude is high. Those high-gradient pixels are likely to be edges.</p>
+          <p>Students can see this directly in Notebook 1.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Canny edges: a stronger edge detector</h2>
+      <div class="two-col">
+        <div class="concept-box dense">
+          <ol class="step-list">
+            <li>Smooth with Gaussian blur.</li>
+            <li>Compute gradients.</li>
+            <li>Thin edges to one-pixel curves.</li>
+            <li>Use thresholds to decide which edges survive.</li>
+          </ol>
+        </div>
+        <div class="card center">
+          <pre><code class="language-python">from skimage import feature
+
+edges = feature.canny(gray_image, sigma=2)
+plt.imshow(edges, cmap="gray")</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Sampling: turning the world into pixels</h2>
+        <div class="concept-box dense">
+          <p>A camera samples a continuous world into a finite grid of pixels. Resolution tells us how many samples we collect.</p>
+          <p>Higher resolution can preserve smaller details, but it costs more memory, more computation, and sometimes more labeling effort.</p>
+          <p>Downsampling is common before machine learning because many models expect fixed input sizes.</p>
+          <div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Aliasing: false patterns from too few samples</h2>
+      <div class="two-col-wide">
+        <div class="image-card">
+          <img src="../images/aliasing_sine.png" alt="Aliasing sine wave plot">
+        </div>
+        <div class="concept-box dense">
+          <p>If a pattern changes faster than the sampling grid can capture, the sampled version may look like a different lower-frequency pattern.</p>
+          <p><strong>Examples:</strong> stripes on shirts, crop row patterns in drone images, screen recordings, microscope grids, rotating wheels, or checkerboards.</p>
+          <p>Anti-aliasing reduces this problem by smoothing before downsampling.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Downsampling with and without anti-aliasing</h2>
+      <img class="full-width-img" src="../images/sampling_checkerboard.png" alt="Checkerboard aliasing example">
+      <p class="caption">A high-frequency checkerboard can create misleading patterns if downsampled without smoothing.</p>
+    </section>
+
+    <section>
+      <h2>Original image vs mosaic image</h2>
+      <img class="full-width-img" src="../images/mosaic_original_comparison.png" alt="Original and mosaic synthetic greenhouse image">
+      <div class="callout dense" style="margin-top:0.55em;">
+        <p><strong>Discussion:</strong> What details are preserved? What details disappear? Why might mosaic effects be useful for privacy or teaching pixel structure?</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>From hand-designed filters to learned filters</h2>
+      <div class="two-col">
+        <div class="concept-box dense">
+          <h3>Traditional approach</h3>
+          <p>Humans design features: edges, corners, textures, color thresholds, shape rules. This works well when the problem is simple and controlled.</p>
+        </div>
+        <div class="concept-box dense">
+          <h3>Learning approach</h3>
+          <p>We provide many examples and labels. The model learns internal features that help make predictions.</p>
+        </div>
+      </div>
+      <div class="note-box" style="margin-top:0.7em;">
+        <p><strong>Bridge:</strong> CNNs do not throw away filters. They learn many filters automatically through training.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Neural network intuition</h2>
+      <div class="two-col-wide">
+        <div class="concept-box dense">
+          <p>A neural network is a flexible function. It takes inputs, transforms them through layers, and outputs predictions.</p>
+          <ul>
+            <li><strong>Input:</strong> pixels or features.</li>
+            <li><strong>Weights:</strong> adjustable numbers learned during training.</li>
+            <li><strong>Activation:</strong> non-linear function that lets the network learn complex patterns.</li>
+            <li><strong>Loss:</strong> measures how wrong the prediction is.</li>
+            <li><strong>Optimizer:</strong> updates weights to reduce loss.</li>
+          </ul>
+        </div>
+        <div class="image-card">
+          <img src="../images/neural_network_diagram.png" alt="Neural network diagram">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Training loop: how a model learns</h2>
+      <div class="card center">
+        <pre><code class="language-python">for images, labels in training_data:
+    predictions = model(images)
+    loss = compare(predictions, labels)
+    update_model_weights_to_reduce(loss)</code></pre>
+      </div>
+      <div class="three-col" style="margin-top:0.7em;">
+        <div class="example-card"><strong>Data</strong><br>Examples the model learns from.</div>
+        <div class="example-card"><strong>Loss</strong><br>A score for how wrong the model is.</div>
+        <div class="example-card"><strong>Update</strong><br>Change weights slightly, then repeat.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why CNNs are special for images</h2>
+      <div class="two-col-wide">
+        <div class="concept-box dense">
+          <p>A fully connected neural network treats every pixel independently. A CNN respects image structure.</p>
+          <ul>
+            <li><strong>Locality:</strong> nearby pixels are related.</li>
+            <li><strong>Shared filters:</strong> the same filter scans the whole image.</li>
+            <li><strong>Translation awareness:</strong> a pattern can be useful wherever it appears.</li>
+            <li><strong>Hierarchy:</strong> early layers learn edges; deeper layers learn parts and objects.</li>
+          </ul>
+        </div>
+        <div class="image-card">
+          <img src="../images/cnn_blocks.png" alt="CNN blocks diagram">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Classic example: handwritten digit recognition</h2>
+      <div class="two-col">
+        <div class="image-card">
+          <img src="../images/mnist_samples.png" alt="MNIST dataset samples">
+        </div>
+        <div class="concept-box dense">
+          <p>Before models could understand complex scenes, digit recognition was a landmark problem.</p>
+          <p>Students can train a small LeNet-style CNN on MNIST in Notebook 3.</p>
+          <ul>
+            <li>Input: 28 x 28 grayscale digit image.</li>
+            <li>Output: one of 10 classes.</li>
+            <li>Why useful: OCR, postal mail, banking, forms, ID processing.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>CIFAR-10: tiny real-world images</h2>
+      <div class="two-col-wide">
+        <div class="concept-box dense">
+          <p>CIFAR-10 has 10 classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship, and truck.</p>
+          <p>The images are only 32 x 32 pixels, but classification is harder than MNIST because images have colors, backgrounds, poses, and texture variation.</p>
+          <p>Students can train a compact CNN in Notebook 4.</p>
+        </div>
+        <div class="image-card">
+          <img src="../images/cifar10_samples.png" alt="CIFAR-10 dataset samples">
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <h2>YOLO object detection</h2>
+      <div class="two-col-wide">
+        <div class="concept-box dense">
+          <p>YOLO models are widely used for real-time object detection. Instead of only assigning one label to an entire image, YOLO predicts bounding boxes, labels, and confidence scores.</p>
+          <p>In Notebook 5, students can run a pretrained model on a sample image or upload their own image.</p>
+          <p><strong>Important:</strong> pretrained models know the classes they were trained on. To detect specialized objects, we need specialized labeled data.</p>
+        </div>
+        <div class="image-card">
+          <img src="../images/yolo-detection.png" alt="YOLO object detection results">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Generative vision: making new images</h2>
+      <div class="two-col-wide">
+        <div class="concept-box dense">
+          <p>Computer vision is not only about recognizing images. Modern models can also synthesize new images.</p>
+          <p><strong>GAN idea:</strong> a generator creates fake images; a discriminator tries to detect fakes. Both improve through competition.</p>
+          <p>In Notebook 6, students can inspect a DCGAN structure and, with data and GPU time, train it on face images.</p>
+        </div>
+        <div class="image-card">
+          <img src="../images/dcgan.png" alt="DCGAN generated face images">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Responsible computer vision</h2>
+      <div class="three-col">
+        <div class="callout dense">
+          <h3>Privacy</h3>
+          <p>Images may contain faces, homes, license plates, classrooms, or personal information. Collect and share responsibly.</p>
+        </div>
+        <div class="callout dense">
+          <h3>Bias</h3>
+          <p>Models learn from data. If the data is narrow or imbalanced, predictions can be unfair or unreliable.</p>
+        </div>
+        <div class="callout dense">
+          <h3>Misuse</h3>
+          <p>Detection and generation can be helpful, but they can also be used deceptively. Explain limitations clearly.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Notebook set for Colab</h2>
+      <div class="three-col">
+        <div class="notebook-card"><a href="notebooks/01_filters_and_edge_detection.ipynb">01 Filters & Edges</a><p>Blur, sharpen, Sobel, Canny.</p></div>
+        <div class="notebook-card"><a href="notebooks/02_image_sampling_aliasing_and_mosaic.ipynb">02 Sampling & Mosaic</a><p>Aliasing, anti-aliasing, pixelation.</p></div>
+        <div class="notebook-card"><a href="notebooks/03_classic_mnist_lenet_cnn.ipynb">03 MNIST CNN</a><p>Classic digit recognition with a LeNet-style CNN.</p></div>
+        <div class="notebook-card"><a href="notebooks/04_cifar10_cnn_image_classification.ipynb">04 CIFAR-10 CNN</a><p>Small color image classification.</p></div>
+        <div class="notebook-card"><a href="notebooks/05_yolo_object_detection.ipynb">05 YOLO Detection</a><p>Pretrained object detection and upload-your-own image.</p></div>
+        <div class="notebook-card"><a href="notebooks/06_dcgan_celeba_face_generation.ipynb">06 DCGAN CelebA</a><p>Generator/discriminator structure and face generation demo.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Suggested live lecture flow</h2>
+      <div class="two-col">
+        <div class="activity-box dense">
+          <h3>Lecture demo</h3>
+          <ol class="step-list">
+            <li>Open Notebook 1 and show an image as a matrix.</li>
+            <li>Run blur, sharpen, Sobel, and Canny cells.</li>
+            <li>Open Notebook 2 and show aliasing + mosaic.</li>
+            <li>Run one CNN training epoch in Notebook 3 or 4.</li>
+            <li>Run YOLO inference in Notebook 5 if time allows.</li>
+          </ol>
+        </div>
+        <div class="concept-box dense">
+          <h3>Student questions</h3>
+          <ul>
+            <li>What kinds of visual problems exist in your field?</li>
+            <li>Would classification, detection, or segmentation be best?</li>
+            <li>What data would you need?</li>
+            <li>What are the risks if the model is wrong?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Mini project ideas</h2>
+      <div class="four-col">
+        <div class="example-card"><strong>Plants</strong><br>Detect leaf edges, count seedlings, classify healthy vs stressed leaves.</div>
+        <div class="example-card"><strong>Sports</strong><br>Track a ball or classify player poses.</div>
+        <div class="example-card"><strong>Medicine</strong><br>Segment cells or compare image enhancement filters.</div>
+        <div class="example-card"><strong>Environment</strong><br>Classify land cover from satellite or drone images.</div>
+        <div class="example-card"><strong>Robotics</strong><br>Detect tools, objects, or paths from a camera feed.</div>
+        <div class="example-card"><strong>Art</strong><br>Make mosaic images or style-based transformations.</div>
+        <div class="example-card"><strong>Accessibility</strong><br>Read text or describe scenes.</div>
+        <div class="example-card"><strong>Safety</strong><br>Detect helmets, signs, or obstacles.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Big picture recap</h2>
+      <div class="two-col-wide">
+        <div class="concept-box">
+          <ul>
+            <li>An image is data: a grid of numbers.</li>
+            <li>Filters transform pixels to reveal useful structure.</li>
+            <li>Sampling controls detail; aliasing creates false patterns.</li>
+            <li>CNNs learn filters and features from examples.</li>
+            <li>Detection finds objects and locations.</li>
+            <li>Generative models can synthesize new images.</li>
+          </ul>
+        </div>
+        <div class="callout">
+          <p><strong>Final message:</strong> computer vision is not one application. It is a toolkit for turning visual data into information across science, engineering, medicine, agriculture, transportation, art, and everyday life.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>References and sources for examples</h2>
+      <div class="note-box tiny">
+        <ul>
+          <li>Provided ECS 174 introduction PDF: broad framing of vision goals, applications, challenges, and syllabus topics.</li>
+          <li>Rick Szeliski, <em>Computer Vision: Algorithms and Applications</em>: http://szeliski.org/Book/</li>
+          <li>scikit-image edge operators and Canny examples: https://scikit-image.org/docs/</li>
+          <li>scikit-image resize/downsampling and anti-aliasing example: https://scikit-image.org/docs/0.25.x/auto_examples/transform/plot_rescale.html</li>
+          <li>Keras CIFAR-10 dataset API: https://keras.io/api/datasets/cifar10/</li>
+          <li>TensorFlow CNN tutorial: https://www.tensorflow.org/tutorials/images/cnn</li>
+          <li>Ultralytics YOLO docs: https://docs.ultralytics.com/</li>
+          <li>PyTorch DCGAN faces tutorial: https://docs.pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    width: 1280,
+    height: 720,
+    margin: 0.05,
+    plugins: [ RevealNotes, RevealHighlight ]
+  });
+</script>
+</body>
+</html>
