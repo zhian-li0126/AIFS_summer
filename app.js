@@ -55,35 +55,34 @@ const dayData = {
     workshopFile: "slides/day3-workshop.html"
   },
 
-  4: {
-    title: "Artificial Lighting and Imaging in the CEA",
-    intro: "Welcome to Day 4 of AIFS Summer Camp. Choose the learning resource you want to open.",
+4: {
+  title: "Artificial Lighting and Imaging in CEA",
+  intro: "Welcome to Day 4 of AIFS Summer Camp. Choose the learning resource you want to open.",
 
-    materialDescription:
-      "Introduction to plant-lighting concepts, including daily light integral, photosynthetic photon flux density, light-use efficiency, and lighting applications in computer vision.",
+  materialDescription:
+    "Introduction to plant-lighting concepts, including daily light integral, photosynthetic photon flux density, light-use efficiency, and lighting applications in computer vision.",
 
-    workshopDescription:
-      "Hands-on computer vision image training with experimental data for controlled environment agriculture applications.",
+  workshopDescription:
+    "Student pitch presentation workshop. Each team will present its own CEA project idea and explain the problem, motivation, data source, proposed ML / CV / IoT approach, expected workflow, challenges, and next steps.",
 
-    materialFile: "slides/day4-in-class.html",
+  materialFile: "slides/day4-in-class.html",
 
-    workshopFile: "slides/day4-workshop.html",
+  workshopFile: "pages/presentation-requirements.html",
 
-    extraButtons: [
-      {
-        label: "📋 Presentation Requirements",
-        file: "pages/presentation-requirements.html",
-        className: "requirements"
-      },
-      {
-        label: "📝 Presentation Submission Form",
-        file: "https://docs.google.com/spreadsheets/d/1GgfY0lB00i0RW4WbU8QbY_wLzvu4hRx7iBsUBRKklbo/edit?usp=sharing",
-        className: "submission",
-        external: true
-      }
-    ]
-  }
-};
+  extraButtons: [
+    {
+      label: "📋 Pitch Presentation Requirements",
+      file: "pages/presentation-requirements.html",
+      className: "requirements"
+    },
+    {
+      label: "📝 Presentation Submission Form",
+      file: "https://docs.google.com/spreadsheets/d/1GgfY0lB00i0RW4WbU8QbY_wLzvu4hRx7iBsUBRKklbo/edit?usp=sharing",
+      className: "submission",
+      external: true
+    }
+  ]
+}};
 
 function getQueryValue(key) {
   const params = new URLSearchParams(window.location.search);

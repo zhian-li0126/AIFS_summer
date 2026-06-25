@@ -244,6 +244,13 @@ h1 {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-size: 1rem;
 }
+.nav-button.requirements {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+}
+
+.nav-button.submission {
+  background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+}
 
 /* =========================
    Description section
@@ -501,11 +508,5 @@ h1 {
   object-fit: contain;
   object-position: center center;
 }
-.nav-button.requirements {
-  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-}
 
-.nav-button.submission {
-  background: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
-}
 }
